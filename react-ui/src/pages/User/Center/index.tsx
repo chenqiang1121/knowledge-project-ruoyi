@@ -7,12 +7,11 @@ import {
   ManOutlined,
 } from '@ant-design/icons';
 import { Card, Col, Divider, List, Row } from 'antd';
-import React, { useState } from 'react';
-import styles from './Center.less';
+import React, { useState, useEffect } from 'react';
+import styles from './Center.module.css';
 import BaseInfo from './components/BaseInfo';
 import ResetPassword from './components/ResetPassword';
 import AvatarCropper from './components/AvatarCropper';
-import { useRequest } from '@umijs/max';
 import { getUserInfo } from '@/services/session';
 import { PageLoading } from '@ant-design/pro-components';
 
@@ -44,9 +43,15 @@ const Center: React.FC = () => {
   const [cropperModalOpen, setCropperModalOpen] = useState<boolean>(false);
   
   //  获取用户信息
-  const { data: userInfo, loading } = useRequest(async () => {
-    return { data: await getUserInfo()};
-  });
+  const [userInfo, setUserInfo] = useState<any>();
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    getUserInfo().then((data) => {
+      setUserInfo({ data });
+    }).finally(() => {
+      setLoading(false);
+    });
+  }, []);
   if (loading) {
     return <div>loading...</div>;
   }

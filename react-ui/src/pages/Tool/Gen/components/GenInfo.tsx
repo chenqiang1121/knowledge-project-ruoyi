@@ -2,7 +2,7 @@ import { Button, Col, Divider, Form, Row, TreeSelect } from 'antd';
 import React, { Fragment, useEffect, useState } from 'react';
 import { history } from '@umijs/max';
 import type { TableInfo } from '../data';
-import styles from '../style.less';
+import styles from '../style.module.css';
 import type { DataNode } from 'antd/es/tree';
 import { ProForm, ProFormRadio, ProFormSelect, ProFormText } from '@ant-design/pro-components';
 

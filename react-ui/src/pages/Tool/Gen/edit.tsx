@@ -5,7 +5,7 @@ import ColumnInfo from './components/ColumnInfo';
 import GenInfo from './components/GenInfo';
 import { getGenCode, updateData } from './service';
 import { formatTreeData } from '@/utils/tree';
-import styles from './style.less';
+import styles from './style.module.css';
 import type { GenCodeType } from './data';
 import { getMenuTree } from '@/services/system/menu';
 import { getDictTypeList } from '@/services/system/dict';

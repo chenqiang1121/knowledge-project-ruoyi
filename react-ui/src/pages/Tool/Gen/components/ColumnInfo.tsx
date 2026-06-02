@@ -3,7 +3,7 @@ import type { GenCodeType } from '../data';
 import { Button, Checkbox, Col, Row, Tag } from 'antd';
 import type { FormInstance } from 'antd';
 import { history } from '@umijs/max';
-import styles from '../style.less';
+import styles from '../style.module.css';
 import { EditableProTable, ProColumns } from '@ant-design/pro-components';
 
 export type ColumnInfoProps = {

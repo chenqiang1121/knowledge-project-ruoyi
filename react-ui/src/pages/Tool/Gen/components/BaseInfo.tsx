@@ -1,7 +1,7 @@
 import { Button, Col, Form, message, Row } from 'antd';
 import React, { Fragment, useEffect } from 'react';
 import { history } from '@umijs/max';
-import styles from '../style.less';
+import styles from '../style.module.css';
 import { ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 
 export type BaseInfoProps = {

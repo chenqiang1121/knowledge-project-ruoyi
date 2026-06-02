@@ -3,7 +3,7 @@ import { Card, Col, Row, Table } from 'antd';
 import { Gauge, Pie } from '@ant-design/plots';
 
 type VisitDataType = { x: string; y: number };
-import styles from './index.less';
+import styles from './index.module.css';
 import { getCacheInfo } from '@/services/monitor/cache';
 
 

@@ -3,7 +3,7 @@ import CopyableIcon from './CopyableIcon';
 import type { ThemeType } from './index';
 import type { CategoriesKeys } from './fields';
 import { useIntl } from '@umijs/max';
-import styles from './style.less';
+import styles from './style.module.css';
 
 interface CategoryProps {
   title: CategoriesKeys;

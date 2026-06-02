@@ -3,7 +3,7 @@ import { Tooltip } from 'antd';
 import clsx from 'clsx';
 import * as AntdIcons from '@ant-design/icons';
 import type { ThemeType } from './index';
-import styles from './style.less';
+import styles from './style.module.css';
 
 const allIcons: {
   [key: string]: any;

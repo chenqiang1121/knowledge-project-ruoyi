@@ -2,7 +2,6 @@ import * as React from 'react';
 import Icon, * as AntdIcons from '@ant-design/icons';
 import { Radio, Input, Empty } from 'antd';
 import type { RadioChangeEvent } from 'antd';
-import debounce from 'lodash/debounce';
 import Category from './Category';
 import IconPicSearcher from './IconPicSearcher';
 import { FilledIcon, OutlinedIcon, TwoToneIcon } from './themeIcons';
@@ -39,10 +38,14 @@ const IconSelector: React.FC<IconSelectorProps> = (props) => {
 
   const newIconNames: string[] = [];
 
+  const debounceTimerRef = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const handleSearchIcon = React.useCallback(
-    debounce((searchKey: string) => {
-      setDisplayState(prevState => ({ ...prevState, searchKey }));
-    }),
+    (searchKey: string) => {
+      clearTimeout(debounceTimerRef.current);
+      debounceTimerRef.current = setTimeout(() => {
+        setDisplayState(prevState => ({ ...prevState, searchKey }));
+      }, 300);
+    },
     [],
   );
 

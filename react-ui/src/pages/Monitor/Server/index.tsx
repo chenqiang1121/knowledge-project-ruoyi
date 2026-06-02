@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getServerInfo } from '@/services/monitor/server';
 import { Card, Col, Row, Table } from 'antd';
 import { FormattedMessage } from '@umijs/max';
-import styles from './style.less';
+import styles from './style.module.css';
 
 
 /* *

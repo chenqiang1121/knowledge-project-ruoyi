@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Upload, Tooltip, Popover, Modal, Progress, Spin, Result } from 'antd';
 import * as AntdIcons from '@ant-design/icons';
 import { useIntl } from '@umijs/max';
-import './style.less';
+import styles from './style.module.css';
 
 const allIcons: { [key: string]: any } = AntdIcons;
 
@@ -129,12 +129,12 @@ const PicSearcher: React.FC = () => {
   }, []);
 
   return (
-    <div className="iconPicSearcher">
+    <div className={styles.iconPicSearcher}>
       <Popover
         content={formatMessage({id: 'app.docs.components.icon.pic-searcher.intro'})}
         open={state.popoverVisible}
       >
-        <AntdIcons.CameraOutlined className="icon-pic-btn" onClick={toggleModal} />
+        <AntdIcons.CameraOutlined className={styles.iconPicBtn} onClick={toggleModal} />
       </Popover>
       <Modal
         title={intl.formatMessage({
@@ -179,9 +179,9 @@ const PicSearcher: React.FC = () => {
           spinning={state.loading}
           tip={formatMessage({id: 'app.docs.components.icon.pic-searcher.matching'})}
         >
-          <div className="icon-pic-search-result">
+          <div className={styles.iconPicSearchResult}>
             {state.icons.length > 0 && (
-              <div className="result-tip">
+              <div className={styles.resultTip}>
                 {formatMessage({id: 'app.docs.components.icon.pic-searcher.result-tip'})}
               </div>
             )}
@@ -189,7 +189,7 @@ const PicSearcher: React.FC = () => {
               {state.icons.length > 0 && (
                 <thead>
                   <tr>
-                    <th className="col-icon">
+                    <th className={styles.colIcon}>
                       {formatMessage({id: 'app.docs.components.icon.pic-searcher.th-icon'})}
                     </th>
                     <th>{formatMessage({id: 'app.docs.components.icon.pic-searcher.th-score'})}</th>
@@ -205,7 +205,7 @@ const PicSearcher: React.FC = () => {
                     .join('')}Outlined`;
                   return (
                     <tr key={iconName}>
-                      <td className="col-icon">
+                      <td className={styles.colIcon}>
                           <Tooltip title={icon.type} placement="right">
                             {React.createElement(allIcons[iconName])}
                           </Tooltip>
