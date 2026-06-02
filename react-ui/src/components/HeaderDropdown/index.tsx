@@ -1,8 +1,8 @@
 import { Dropdown } from 'antd';
-import type { DropDownProps } from 'antd/es/dropdown';
+import type { DropDownProps } from 'antd';
 import React from 'react';
 import { createStyles } from 'antd-style';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 const useStyles = createStyles(({ token }) => {
   return {
@@ -15,13 +15,13 @@ const useStyles = createStyles(({ token }) => {
 });
 
 export type HeaderDropdownProps = {
-  overlayClassName?: string;
+  rootClassName?: string;
   placement?: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topCenter' | 'topRight' | 'bottomCenter';
 } & Omit<DropDownProps, 'overlay'>;
 
-const HeaderDropdown: React.FC<HeaderDropdownProps> = ({ overlayClassName: cls, ...restProps }) => {
+const HeaderDropdown: React.FC<HeaderDropdownProps> = ({ rootClassName: cls, ...restProps }) => {
   const { styles } = useStyles();
-  return <Dropdown overlayClassName={classNames(styles.dropdown, cls)} {...restProps} />;
+  return <Dropdown classNames={{ root: clsx(styles.dropdown, cls) }} {...restProps} />;
 };
 
 export default HeaderDropdown;

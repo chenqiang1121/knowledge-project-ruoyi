@@ -124,11 +124,11 @@ const handleExport = async () => {
 
 
 const OperlogTableList: React.FC = () => {
-  const formTableRef = useRef<FormInstance>();
+  const formTableRef = { current: undefined as any };
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   const [currentRow, setCurrentRow] = useState<API.Monitor.Operlog>();
   const [selectedRows, setSelectedRows] = useState<API.Monitor.Operlog[]>([]);
 
@@ -158,7 +158,7 @@ const OperlogTableList: React.FC = () => {
       title: <FormattedMessage id="monitor.operlog.oper_id" defaultMessage="日志主键" />,
       dataIndex: 'operId',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="monitor.operlog.title" defaultMessage="操作模块" />,

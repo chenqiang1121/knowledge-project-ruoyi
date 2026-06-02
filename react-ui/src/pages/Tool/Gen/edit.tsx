@@ -139,7 +139,7 @@ const TableList: React.FC = () => {
 
     getDictTypeList().then((res: any) => {
       if (res.code === 200) {
-        const dicts = res.rows.map((item: any) => {
+        const dicts = (res.rows ?? []).map((item: any) => {
           return {
             label: item.dictName,
             value: item.dictType,
@@ -162,7 +162,7 @@ const TableList: React.FC = () => {
 
   return (
     <Content>
-      <Card className={styles.tabsCard} bordered={false}>
+      <Card className={styles.tabsCard} variant="borderless">
         <Steps current={currentStep} className={styles.steps} items={[
           {
             title: '基本信息',

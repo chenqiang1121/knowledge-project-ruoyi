@@ -6,10 +6,12 @@ import './style.less';
 
 const allIcons: { [key: string]: any } = AntdIcons;
 
+declare const gtag: (...args: any[]) => void;
+
 const { Dragger } = Upload;
 interface AntdIconClassifier {
   load: () => void;
-  predict: (imgEl: HTMLImageElement) => void;
+  predict: (imgEl: HTMLImageElement) => any[];
 }
 declare global {
   interface Window {
@@ -46,9 +48,9 @@ const PicSearcher: React.FC = () => {
   });
   const predict = (imgEl: HTMLImageElement) => {
     try {
-      let icons: any[] = window.antdIconClassifier.predict(imgEl);
-      if (gtag && icons.length) {
-        gtag('event', 'icon', {
+      let icons: any[] = window.antdIconClassifier.predict(imgEl) as any;
+      if (typeof gtag !== 'undefined' && icons.length) {
+        (gtag as any)('event', 'icon', {
           event_category: 'search-by-image',
           event_label: icons[0].className,
         });
@@ -74,7 +76,7 @@ const PicSearcher: React.FC = () => {
     setState(prev => ({ ...prev, loading: true }));
     const reader = new FileReader();
     reader.onload = () => {
-      toImage(reader.result as string).then(predict);
+      toImage(reader.result as string).then((img) => predict(img as HTMLImageElement));
       setState(prev => ({
         ...prev,
         fileList: [{ uid: 1, name: file.name, status: 'done', url: reader.result }],

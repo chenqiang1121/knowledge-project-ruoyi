@@ -134,11 +134,11 @@ const handleRefreshCache = async () => {
 };
 
 const ConfigTableList: React.FC = () => {
-  const formTableRef = useRef<FormInstance>();
+  const formTableRef = { current: undefined as any };
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   const [currentRow, setCurrentRow] = useState<API.System.Config>();
   const [selectedRows, setSelectedRows] = useState<API.System.Config[]>([]);
 
@@ -160,7 +160,7 @@ const ConfigTableList: React.FC = () => {
       title: <FormattedMessage id="system.config.config_id" defaultMessage="参数主键" />,
       dataIndex: 'configId',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="system.config.config_name" defaultMessage="参数名称" />,
@@ -190,7 +190,7 @@ const ConfigTableList: React.FC = () => {
       title: <FormattedMessage id="system.config.remark" defaultMessage="备注" />,
       dataIndex: 'remark',
       valueType: 'textarea',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="操作" />,

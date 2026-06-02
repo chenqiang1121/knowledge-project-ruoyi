@@ -89,9 +89,9 @@ const handleExport = async () => {
 
 
 const LogininforTableList: React.FC = () => {
-  const formTableRef = useRef<FormInstance>();
+  const formTableRef = { current: undefined as any };
 
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   const [selectedRows, setSelectedRows] = useState<API.Monitor.Logininfor[]>([]);
 
   const access = useAccess();
@@ -127,7 +127,7 @@ const LogininforTableList: React.FC = () => {
       title: <FormattedMessage id="monitor.logininfor.info_id" defaultMessage="访问编号" />,
       dataIndex: 'infoId',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="monitor.logininfor.user_name" defaultMessage="用户账号" />,
@@ -143,19 +143,19 @@ const LogininforTableList: React.FC = () => {
       title: <FormattedMessage id="monitor.logininfor.login_location" defaultMessage="登录地点" />,
       dataIndex: 'loginLocation',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="monitor.logininfor.browser" defaultMessage="浏览器类型" />,
       dataIndex: 'browser',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="monitor.logininfor.os" defaultMessage="操作系统" />,
       dataIndex: 'os',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="monitor.logininfor.status" defaultMessage="登录状态" />,
@@ -169,7 +169,7 @@ const LogininforTableList: React.FC = () => {
       title: <FormattedMessage id="monitor.logininfor.msg" defaultMessage="提示消息" />,
       dataIndex: 'msg',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="monitor.logininfor.login_time" defaultMessage="访问时间" />,

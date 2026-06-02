@@ -82,11 +82,11 @@ const handleExport = async () => {
 
 
 const JobLogTableList: React.FC = () => {
-  const formTableRef = useRef<FormInstance>();
+  const formTableRef = { current: undefined as any };
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   const [currentRow, setCurrentRow] = useState<API.Monitor.JobLog>();
   const [selectedRows, setSelectedRows] = useState<API.Monitor.JobLog[]>([]);
 
@@ -127,7 +127,7 @@ const JobLogTableList: React.FC = () => {
       title: <FormattedMessage id="monitor.job.log.job_log_id" defaultMessage="任务日志编号" />,
       dataIndex: 'jobLogId',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="monitor.job.log.job_name" defaultMessage="任务名称" />,

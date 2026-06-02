@@ -8,7 +8,8 @@ import {
 } from '@ant-design/pro-components';
 import { Form, Modal } from 'antd';
 import { useIntl, FormattedMessage } from '@umijs/max';
-import Tree, { DataNode } from 'antd/es/tree';
+import Tree from 'antd/es/tree';
+import type { DataNode } from 'antd/es/tree';
 import { DictValueEnumObj } from '@/components/DictTag';
 
 export type RoleFormData = Record<string, unknown> & Partial<API.System.Role>;
@@ -69,7 +70,7 @@ const RoleForm: React.FC<RoleFormProps> = (props) => {
       })}
       forceRender
       open={props.open}
-      destroyOnClose
+      destroyOnHidden
       onOk={handleOk}
       onCancel={handleCancel}
     >

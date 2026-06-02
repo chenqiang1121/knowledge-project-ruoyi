@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useIntl, FormattedMessage, useAccess, history } from '@umijs/max';
-import { DataNode } from 'antd/es/tree';
+import type { DataNode } from 'antd/es/tree';
 import { Button, message, Modal, Dropdown, FormInstance, Space, Switch } from 'antd';
 import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
 import { PlusOutlined, EditOutlined, DeleteOutlined, ExclamationCircleOutlined, DownOutlined } from '@ant-design/icons';
@@ -127,12 +127,12 @@ const handleExport = async () => {
 const RoleTableList: React.FC = () => {
 
   const [messageApi, contextHolder] = message.useMessage();
-  const formTableRef = useRef<FormInstance>();
+  const formTableRef = { current: undefined as any };
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [dataScopeModalOpen, setDataScopeModalOpen] = useState<boolean>(false);
 
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   const [currentRow, setCurrentRow] = useState<API.System.Role>();
   const [selectedRows, setSelectedRows] = useState<API.System.Role[]>([]);
 
@@ -190,13 +190,13 @@ const RoleTableList: React.FC = () => {
       title: <FormattedMessage id="system.role.role_key" defaultMessage="角色权限字符串" />,
       dataIndex: 'roleKey',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="system.role.role_sort" defaultMessage="显示顺序" />,
       dataIndex: 'roleSort',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="system.role.status" defaultMessage="角色状态" />,

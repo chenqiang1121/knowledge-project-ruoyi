@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Tooltip } from 'antd';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import * as AntdIcons from '@ant-design/icons';
 import type { ThemeType } from './index';
 import styles from './style.less';
@@ -23,7 +23,7 @@ const CopyableIcon: React.FC<CopyableIconProps> = ({
   onSelect,
   theme,
 }) => {
-  const className = classNames({
+  const className = clsx({
     copied: justCopied === name,
     [theme]: !!theme,
   });

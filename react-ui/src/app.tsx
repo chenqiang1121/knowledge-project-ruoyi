@@ -68,7 +68,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       src: initialState?.currentUser?.avatar,
       title: <AvatarName />,
       render: (_, avatarChildren) => {
-        return <AvatarDropdown menu="True">{avatarChildren}</AvatarDropdown>;
+        return <AvatarDropdown menu={true}>{avatarChildren}</AvatarDropdown>;
       },
     },
     waterMarkProps: {
@@ -150,7 +150,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   };
 };
 
-export async function onRouteChange({ clientRoutes, location }) {
+export async function onRouteChange({ clientRoutes, location }: { clientRoutes: any; location: any }) {
   const menus = getRemoteMenu();
  // console.log('onRouteChange', clientRoutes, location, menus);
   if(menus === null && location.pathname !== PageEnum.LOGIN) {
@@ -164,7 +164,7 @@ export async function onRouteChange({ clientRoutes, location }) {
 // }
 
 
-export async function patchClientRoutes({ routes }) {
+export async function patchClientRoutes({ routes }: { routes: any }) {
   // console.log('patchClientRoutes', routes);
   patchRouteWithRemoteMenus(routes);
 }
@@ -189,7 +189,7 @@ export function render(oldRender: () => void) {
  */
 const checkRegion = 5 * 60 * 1000;
 
-export const request = {
+export const request: any = {
   ...errorConfig,
   requestInterceptors: [
     (url: any, options: { headers: any }) => {

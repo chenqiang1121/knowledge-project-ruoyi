@@ -65,13 +65,13 @@ const handleRemoveOne = async (selectedRow: GenCodeType) => {
 };
 
 const GenCodeView: React.FC = () => {
-  const formTableRef = useRef<FormInstance>();
+  const formTableRef = { current: undefined as any };
 
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const [showPreview, setShowPreview] = useState<boolean>(false);
   const [preivewData, setPreivewData] = useState<boolean>(false);
 
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   const [currentRow, setCurrentRow] = useState<GenCodeType>();
   const [selectedRows, setSelectedRows] = useState<GenCodeType[]>([]);
 
@@ -81,7 +81,6 @@ const GenCodeView: React.FC = () => {
     {
       title: '编号',
       dataIndex: 'tableId',
-      tip: '编号',
       render: (dom, entity) => {
         return (
           <a
@@ -104,7 +103,7 @@ const GenCodeView: React.FC = () => {
       title: '表描述',
       dataIndex: 'tableComment',
       hideInForm: true,
-      hideInSearch: true,
+      search: false,
     },
     {
       title: '实体',
@@ -115,13 +114,13 @@ const GenCodeView: React.FC = () => {
       title: '创建时间',
       dataIndex: 'createTime',
       valueType: 'textarea',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: '更新时间',
       dataIndex: 'updateTime',
       valueType: 'textarea',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: '操作',
@@ -227,7 +226,7 @@ const GenCodeView: React.FC = () => {
 
   return (
     <Content>
-      <Card bordered={false}>
+      <Card variant="borderless">
         <ProTable<GenCodeType>
           headerTitle="代码生成信息"
           actionRef={actionRef}
@@ -275,9 +274,10 @@ const GenCodeView: React.FC = () => {
           ]}
           request={(params) =>
             getGenCodeList({ ...params } as GenCodeTableListParams).then((res) => {
+              const rows = res?.rows ?? [];
               return {
-                data: res.rows,
-                total: res.rows.length,
+                data: rows,
+                total: res?.total ?? rows.length,
                 success: true,
               };
             })
@@ -330,7 +330,7 @@ const GenCodeView: React.FC = () => {
           }}
         />
         <Drawer
-          width={600}
+          size={600}
           open={showDetail}
           onClose={() => {
             setCurrentRow(undefined);

@@ -38,13 +38,13 @@ const ImportTableList: React.FC = () => {
       title: '创建时间',
       dataIndex: 'createTime',
       valueType: 'textarea',
-      hideInSearch: true,
+      search: false,
     },
   ];
 
   return (
     <Content>
-      <Card bordered={false}>
+      <Card variant="borderless">
         <ProTable<GenCodeType>
           headerTitle="代码生成信息"
           rowKey="tableName"

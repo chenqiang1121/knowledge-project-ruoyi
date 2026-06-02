@@ -8,7 +8,7 @@ import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined, DownOutlined, 
 import { getUserList, removeUser, addUser, updateUser, exportUser, getUser, changeUserStatus, updateAuthRole, resetUserPwd } from '@/services/system/user';
 import UpdateForm from './edit';
 import { getDictValueEnum } from '@/services/system/dict';
-import { DataNode } from 'antd/es/tree';
+import type { DataNode } from 'antd/es/tree';
 import { getDeptTree } from '@/services/system/user';
 import DeptTree from './components/DeptTree';
 import ResetPwd from './components/ResetPwd';
@@ -121,13 +121,13 @@ const handleExport = async () => {
 const UserTableList: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
-  const formTableRef = useRef<FormInstance>();
+  const formTableRef = { current: undefined as any };
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [resetPwdModalVisible, setResetPwdModalVisible] = useState<boolean>(false);
   const [authRoleModalVisible, setAuthRoleModalVisible] = useState<boolean>(false);
 
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   const [currentRow, setCurrentRow] = useState<API.System.User>();
   const [selectedRows, setSelectedRows] = useState<API.System.User[]>([]);
 
@@ -221,7 +221,7 @@ const UserTableList: React.FC = () => {
       title: <FormattedMessage id="system.user.dept_name" defaultMessage="部门" />,
       dataIndex: ['dept', 'deptName'],
       valueType: 'text',
-      hideInSearch: true
+      search: false
     },
     {
       title: <FormattedMessage id="system.user.phonenumber" defaultMessage="手机号码" />,

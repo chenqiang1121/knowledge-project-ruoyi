@@ -1,4 +1,4 @@
-import { DataNode } from 'antd/es/tree';
+import type { DataNode } from 'antd/es/tree';
 import { parse } from 'querystring';
 
 /**

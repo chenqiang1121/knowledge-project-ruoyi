@@ -103,11 +103,11 @@ const handleRemoveOne = async (selectedRow: API.System.Dept) => {
 
 
 const DeptTableList: React.FC = () => {
-  const formTableRef = useRef<FormInstance>();
+  const formTableRef = { current: undefined as any };
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   const [currentRow, setCurrentRow] = useState<API.System.Dept>();
   const [selectedRows, setSelectedRows] = useState<API.System.Dept[]>([]);
 

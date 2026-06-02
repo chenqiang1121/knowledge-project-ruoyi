@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tag } from 'antd';
 import { ProSchemaValueEnumType } from '@ant-design/pro-components';
-import { DefaultOptionType } from 'antd/es/select';
+import type { DefaultOptionType } from 'antd/es/select';
 
 /* *
  *

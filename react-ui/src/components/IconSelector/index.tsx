@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Icon, * as AntdIcons from '@ant-design/icons';
 import { Radio, Input, Empty } from 'antd';
-import type { RadioChangeEvent } from 'antd/es/radio/interface';
+import type { RadioChangeEvent } from 'antd';
 import debounce from 'lodash/debounce';
 import Category from './Category';
 import IconPicSearcher from './IconPicSearcher';
@@ -53,8 +53,8 @@ const IconSelector: React.FC<IconSelectorProps> = (props) => {
   const renderCategories = React.useMemo<React.ReactNode | React.ReactNode[]>(() => {
     const { searchKey = '', theme } = displayState;
 
-    const categoriesResult = Object.keys(categories)
-      .map((key: CategoriesKeys) => {
+    const categoriesResult = (Object.keys(categories) as CategoriesKeys[])
+      .map((key) => {
         let iconList = categories[key];
         if (searchKey) {
           const matchKey = searchKey

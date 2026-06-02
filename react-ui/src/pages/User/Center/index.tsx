@@ -143,7 +143,7 @@ const Center: React.FC = () => {
         <Col lg={8} md={24}>
           <Card
             title="个人信息"
-            bordered={false}
+            variant="borderless"
             loading={loading}
           >
             {!loading && (
@@ -175,7 +175,7 @@ const Center: React.FC = () => {
         </Col>
         <Col lg={16} md={24}>
           <Card
-            bordered={false}
+            variant="borderless"
             tabList={operationTabList}
             activeTabKey={tabKey}
             onTabChange={(_tabKey: string) => {

@@ -121,11 +121,11 @@ const handleExport = async () => {
 
 
 const DictTableList: React.FC = () => {
-  const formTableRef = useRef<FormInstance>();
+  const formTableRef = { current: undefined as any };
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   const [currentRow, setCurrentRow] = useState<API.System.DictType>();
   const [selectedRows, setSelectedRows] = useState<API.System.DictType[]>([]);
 
@@ -147,7 +147,7 @@ const DictTableList: React.FC = () => {
       title: <FormattedMessage id="system.dict.dict_id" defaultMessage="字典编号" />,
       dataIndex: 'dictId',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="system.dict.dict_name" defaultMessage="字典名称" />,
@@ -183,7 +183,7 @@ const DictTableList: React.FC = () => {
       title: <FormattedMessage id="system.dict.remark" defaultMessage="备注" />,
       dataIndex: 'remark',
       valueType: 'textarea',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="system.role.create_time" defaultMessage="创建时间" />,
