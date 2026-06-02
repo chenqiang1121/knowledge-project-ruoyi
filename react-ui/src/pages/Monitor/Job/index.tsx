@@ -1,8 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useIntl, FormattedMessage, useAccess, history } from '@umijs/max';
-import { Dropdown, FormInstance, Space } from 'antd';
-import { Button, message, Modal } from 'antd';
+import { Button, Dropdown, FormInstance, Modal, Space, message } from 'antd';
 import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
 import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined, DownOutlined, EditOutlined } from '@ant-design/icons';
 import { getJobList, removeJob, addJob, updateJob, exportJob, runJob } from '@/services/monitor/job';

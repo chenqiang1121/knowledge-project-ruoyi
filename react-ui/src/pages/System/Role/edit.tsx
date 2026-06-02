@@ -8,7 +8,7 @@ import {
 } from '@ant-design/pro-components';
 import { Form, Modal } from 'antd';
 import { useIntl, FormattedMessage } from '@umijs/max';
-import Tree from 'antd/es/tree';
+import { Tree } from 'antd';
 import type { DataNode } from 'antd/es/tree';
 import { DictValueEnumObj } from '@/components/DictTag';
 

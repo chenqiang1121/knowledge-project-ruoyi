@@ -1,4 +1,4 @@
-import { Button, Col, Form, message, Row } from 'antd';
+import { Button, Col, Form,  Row, message } from 'antd';
 import React, { Fragment, useEffect } from 'react';
 import { history } from '@umijs/max';
 import styles from '../style.module.css';

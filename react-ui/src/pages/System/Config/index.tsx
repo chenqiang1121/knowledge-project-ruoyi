@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useIntl, FormattedMessage, useAccess } from '@umijs/max';
 import type { FormInstance } from 'antd';
-import { Button, message, Modal } from 'antd';
+import { Button,  Modal, message } from 'antd';
 import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
 import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined, ReloadOutlined, DownloadOutlined } from '@ant-design/icons';
 import { getConfigList, removeConfig, addConfig, updateConfig, exportConfig, refreshConfigCache } from '@/services/system/config';

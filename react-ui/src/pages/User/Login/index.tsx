@@ -17,7 +17,7 @@ import {
 } from '@ant-design/pro-components';
 import { createStyles } from 'antd-style';
 import { FormattedMessage, history, SelectLang, useIntl, useModel, Helmet } from '@umijs/max';
-import { Alert, Col, message, Row, Tabs, Image } from 'antd';
+import { Alert, Col,  Row, Tabs, Image, message } from 'antd';
 import Settings from '../../../../config/defaultSettings';
 import React, { useEffect, useState } from 'react';
 import { flushSync } from 'react-dom';

@@ -1,4 +1,4 @@
-import { Button, Card, message, Layout } from 'antd';
+import { Button, Card,  Layout, message } from 'antd';
 import React, { useState } from 'react';
 import { history, FormattedMessage } from '@umijs/max';
 import { importTables, queryTableList } from './service';

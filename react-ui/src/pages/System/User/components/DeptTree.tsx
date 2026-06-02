@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Tree, message } from 'antd';
+import { App, Tree } from 'antd';
 import { getDeptTree } from '@/services/system/user';
 
 const { DirectoryTree } = Tree;
@@ -17,6 +17,7 @@ export type TreeProps = {
 };
 
 const DeptTree: React.FC<TreeProps> = (props) => {
+  const { message } = App.useApp();
   const [treeData, setTreeData] = useState<any>([]);
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
   const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);

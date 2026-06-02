@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import BaseInfo from './components/BaseInfo';
-import { Card, Layout, message, Steps } from 'antd';
+import { Card, Layout,  Steps, message } from 'antd';
 import ColumnInfo from './components/ColumnInfo';
 import GenInfo from './components/GenInfo';
 import { getGenCode, updateData } from './service';

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { clearCacheAll, clearCacheKey, clearCacheName, getCacheValue, listCacheKey, listCacheName } from '@/services/monitor/cachelist';
-import { Button, Card, Col, Form, FormInstance, Input, message, Row, Table } from 'antd';
+import { Button, Card, Col, Form, FormInstance, Input,  Row, Table, message } from 'antd';
 import styles from './index.module.css';
 import { FormattedMessage } from '@umijs/max';
 import { ReloadOutlined } from '@ant-design/icons';
