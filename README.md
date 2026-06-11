@@ -6,7 +6,7 @@
 
 若依(Ruoyi-React)是一套全部开源的快速开发平台，毫无保留给个人及企业免费使用。
 
-* 前端采用React 18、Ant Design Pro 6、TypeScript 5。
+* 前端采用React 19、Ant Design Pro 6、TypeScript 6。
 * 后端采用JDK17, Spring Boot v3、Spring Security、Redis & Jwt。
 * 权限认证使用Jwt，支持多终端认证系统。
 * 支持加载动态权限菜单，多方式轻松权限控制。
