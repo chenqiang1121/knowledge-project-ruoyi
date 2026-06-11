@@ -1,19 +1,31 @@
 // https://umijs.org/config/
+import { join } from 'node:path';
 import { defineConfig } from '@umijs/max';
-import { join } from 'path';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 
 const { REACT_APP_ENV = 'dev' } = process.env;
 
+/**
+ * @name 使用公共路径
+ * @description 部署时的路径，如果部署在非根目录下，需要配置这个变量
+ * @doc https://umijs.org/docs/api/config#publicpath
+ */
+const PUBLIC_PATH: string = '/';
+
 export default defineConfig({
+  alias: {
+    '@root': join(__dirname, '..'),
+  },
   /**
    * @name 开启 hash 模式
    * @description 让 build 之后的产物包含 hash 后缀。通常用于增量发布和避免浏览器加载缓存。
    * @doc https://umijs.org/docs/api/config#hash
    */
   hash: true,
+
+  publicPath: PUBLIC_PATH,
 
   /**
    * @name 兼容性设置
@@ -34,7 +46,7 @@ export default defineConfig({
    * @name 主题的配置
    * @description 虽然叫主题，但是其实只是 less 的变量设置
    * @doc antd的主题设置 https://ant.design/docs/react/customize-theme-cn
-   * @doc umi 的theme 配置 https://umijs.org/docs/api/config#theme
+   * @doc umi 的 theme 配置 https://umijs.org/docs/api/config#theme
    */
   theme: {
     // 如果不想要 configProvide 动态设置主题需要把这个设置为 default
@@ -60,6 +72,17 @@ export default defineConfig({
    * @description 一个不错的热更新组件，更新时可以保留 state
    */
   fastRefresh: true,
+  /**
+   * @name 路由预加载
+   * @description 预加载路由资源，提升页面切换速度
+   * @doc https://umijs.org/docs/api/config#routePrefetch
+   */
+  routePrefetch: {},
+  /**
+   * @name manifest 配置
+   * @description 生成资源清单，配合 routePrefetch 使用
+   */
+  manifest: {},
   //============== 以下都是max的插件配置 ===============
   /**
    * @name 数据流插件
@@ -88,7 +111,7 @@ export default defineConfig({
    */
   moment2dayjs: {
     preset: 'antd',
-    plugins: ['duration'],
+    plugins: ['duration', 'relativeTime'],
   },
   /**
    * @name 国际化插件
@@ -106,13 +129,24 @@ export default defineConfig({
    * @description 内置了 babel import 插件
    * @doc https://umijs.org/docs/max/antd#antd
    */
-  antd: {},
+  antd: {
+    appConfig: {},
+    configProvider: {
+      variant: 'filled',
+    },
+  },
   /**
    * @name 网络请求配置
    * @description 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
    * @doc https://umijs.org/docs/max/request
    */
   request: {},
+  /**
+   * @name React Query 插件
+   * @description 使用 react-query 管理服务端状态
+   * @doc https://umijs.org/docs/max/react-query
+   */
+  reactQuery: {},
   /**
    * @name 权限插件
    * @description 基于 initialState 的权限插件，必须先打开 initialState
@@ -125,10 +159,12 @@ export default defineConfig({
    */
   headScripts: [
     // 解决首次加载时白屏的问题
-    { src: '/scripts/loading.js', async: true },
+    { src: join(PUBLIC_PATH, 'scripts/loading.js'), async: true },
   ],
+
   //================ pro 插件配置 =================
-  presets: ['umi-presets-pro'],
+  plugins: ['@umijs/max-plugin-openapi', '@umijs/request-record'],
+
   /**
    * @name openAPI 插件的配置
    * @description 基于 openapi 的规范生成serve 和mock，能减少很多样板代码
@@ -148,9 +184,17 @@ export default defineConfig({
       projectName: 'swagger',
     },
   ],
-  mfsu: {
-    strategy: 'normal',
+
+  mock: {
+    include: ['src/pages/**/_mock.ts'],
+    exclude: ['mock/requestRecord.mock.js'],
   },
-  esbuildMinifyIIFE: true,
   requestRecord: {},
+  esbuildMinifyIIFE: true,
+  exportStatic: {},
+  define: {
+    'process.env.CI': process.env.CI,
+    __APP_VERSION__: require('./../package.json').version,
+    __UMI_VERSION__: require('@umijs/max/package.json').version,
+  },
 });

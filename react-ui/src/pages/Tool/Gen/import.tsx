@@ -1,4 +1,4 @@
-import { Button, Card, message, Layout } from 'antd';
+import { Button, Card,  Layout, message } from 'antd';
 import React, { useState } from 'react';
 import { history, FormattedMessage } from '@umijs/max';
 import { importTables, queryTableList } from './service';
@@ -38,13 +38,13 @@ const ImportTableList: React.FC = () => {
       title: '创建时间',
       dataIndex: 'createTime',
       valueType: 'textarea',
-      hideInSearch: true,
+      search: false,
     },
   ];
 
   return (
     <Content>
-      <Card bordered={false}>
+      <Card variant="borderless">
         <ProTable<GenCodeType>
           headerTitle="代码生成信息"
           rowKey="tableName"

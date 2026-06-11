@@ -2,8 +2,8 @@ import { Button, Col, Divider, Form, Row, TreeSelect } from 'antd';
 import React, { Fragment, useEffect, useState } from 'react';
 import { history } from '@umijs/max';
 import type { TableInfo } from '../data';
-import styles from '../style.less';
-import { DataNode } from 'antd/es/tree';
+import styles from '../style.module.css';
+import type { DataNode } from 'antd/es/tree';
 import { ProForm, ProFormRadio, ProFormSelect, ProFormText } from '@ant-design/pro-components';
 
 export type GenInfoProps = {
@@ -105,7 +105,7 @@ const GenInfo: React.FC<GenInfoProps> = (props) => {
                 <ProFormSelect
                   fieldProps={{
                     onChange: (val) => {
-                      setTlpType(val);
+                      setTlpType(val as string);
                     },
                   }}
                   valueEnum={{
@@ -188,7 +188,7 @@ const GenInfo: React.FC<GenInfoProps> = (props) => {
               </Col>
             </Row>
             <div hidden={tlpType !== 'tree'}>
-              <Divider orientation="left">其他信息</Divider>
+              <Divider >其他信息</Divider>
               <Row gutter={[16, 16]}>
                 <Col span={12} order={1}>
                   <ProFormSelect
@@ -234,7 +234,7 @@ const GenInfo: React.FC<GenInfoProps> = (props) => {
               </Row>
             </div>
             <div hidden={tlpType !== 'sub'}>
-              <Divider orientation="left">关联信息</Divider>
+              <Divider >关联信息</Divider>
               <Row gutter={[16, 16]}>
                 <Col span={12} order={1}>
                   <ProFormSelect

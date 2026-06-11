@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useIntl, FormattedMessage, useAccess, history, useParams } from '@umijs/max';
 import type { FormInstance } from 'antd';
-import { Button, message, Modal } from 'antd';
+import { Button,  Modal, message } from 'antd';
 import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
 import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { getDictDataList, removeDictData, addDictData, updateDictData, exportDictData } from '@/services/system/dictdata';
@@ -126,14 +126,14 @@ export type DictTypeArgs = {
 
 const DictDataTableList: React.FC = () => {
 
-  const formTableRef = useRef<FormInstance>();
+  const formTableRef = { current: undefined as any };
 
   const [dictId, setDictId] = useState<string>('');
   const [dictType, setDictType] = useState<string>('');
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   const [currentRow, setCurrentRow] = useState<API.System.DictData>();
   const [selectedRows, setSelectedRows] = useState<API.System.DictData[]>([]);
 
@@ -185,7 +185,7 @@ const DictDataTableList: React.FC = () => {
       title: <FormattedMessage id="system.dict.data.dict_code" defaultMessage="字典编码" />,
       dataIndex: 'dictCode',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="system.dict.data.dict_label" defaultMessage="字典标签" />,
@@ -228,7 +228,7 @@ const DictDataTableList: React.FC = () => {
       title: <FormattedMessage id="system.dict.data.remark" defaultMessage="备注" />,
       dataIndex: 'remark',
       valueType: 'textarea',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="system.dict.data.create_time" defaultMessage="创建时间" />,

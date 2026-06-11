@@ -1,14 +1,14 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useIntl, FormattedMessage, useAccess } from '@umijs/max';
-import { Button, message, Modal } from 'antd';
+import { Button,  Modal, message } from 'antd';
 import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
 import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { getMenuList, removeMenu, addMenu, updateMenu } from '@/services/system/menu';
 import UpdateForm from './edit';
 import { getDictValueEnum } from '@/services/system/dict';
 import { buildTreeData } from '@/utils/tree';
-import { DataNode } from 'antd/es/tree';
+import type { DataNode } from 'antd/es/tree';
 import DictTag from '@/components/DictTag';
 
 /**
@@ -90,7 +90,7 @@ const MenuTableList: React.FC = () => {
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   const [currentRow, setCurrentRow] = useState<API.System.Menu>();
   const [selectedRows, setSelectedRows] = useState<API.System.Menu[]>([]);
 
@@ -122,25 +122,25 @@ const MenuTableList: React.FC = () => {
       title: <FormattedMessage id="system.menu.icon" defaultMessage="菜单图标" />,
       dataIndex: 'icon',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="system.menu.order_num" defaultMessage="显示顺序" />,
       dataIndex: 'orderNum',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="system.menu.component" defaultMessage="组件路径" />,
       dataIndex: 'component',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="system.menu.perms" defaultMessage="权限标识" />,
       dataIndex: 'perms',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="system.menu.status" defaultMessage="菜单状态" />,

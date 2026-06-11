@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, message, Row } from 'antd';
+import { Form,  Row, message } from 'antd';
 import { FormattedMessage, useIntl } from '@umijs/max';
 import { ProForm, ProFormRadio, ProFormText } from '@ant-design/pro-components';
 import { updateUserProfile } from '@/services/system/user';

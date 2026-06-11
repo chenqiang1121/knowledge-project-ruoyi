@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useIntl, FormattedMessage, useAccess } from '@umijs/max';
 import type { FormInstance } from 'antd';
-import { Button, message, Modal } from 'antd';
+import { Button,  Modal, message } from 'antd';
 import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
 import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { getNoticeList, removeNotice, addNotice, updateNotice } from '@/services/system/notice';
@@ -103,11 +103,11 @@ const handleRemoveOne = async (selectedRow: API.System.Notice) => {
 
 
 const NoticeTableList: React.FC = () => {
-  const formTableRef = useRef<FormInstance>();
+  const formTableRef = { current: undefined as any };
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   const [currentRow, setCurrentRow] = useState<API.System.Notice>();
   const [selectedRows, setSelectedRows] = useState<API.System.Notice[]>([]);
 
@@ -133,7 +133,7 @@ const NoticeTableList: React.FC = () => {
       title: <FormattedMessage id="system.notice.notice_id" defaultMessage="公告编号" />,
       dataIndex: 'noticeId',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="system.notice.notice_title" defaultMessage="公告标题" />,
@@ -165,7 +165,7 @@ const NoticeTableList: React.FC = () => {
       title: <FormattedMessage id="system.notice.remark" defaultMessage="备注" />,
       dataIndex: 'remark',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="system.notice.create_time" defaultMessage="创建时间" />,

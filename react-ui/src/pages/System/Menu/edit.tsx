@@ -9,7 +9,7 @@ import {
 } from '@ant-design/pro-components';
 import { Form, Modal} from 'antd';
 import { useIntl, FormattedMessage } from '@umijs/max';
-import { DataNode } from 'antd/es/tree';
+import type { DataNode } from 'antd/es/tree';
 import { createIcon } from '@/utils/IconUtil';
 import { DictValueEnumObj } from '@/components/DictTag';
 import IconSelector from '@/components/IconSelector';
@@ -82,7 +82,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
       })}
       open={props.open}
       forceRender
-      destroyOnClose
+      destroyOnHidden
       onOk={handleOk}
       onCancel={handleCancel}
     >

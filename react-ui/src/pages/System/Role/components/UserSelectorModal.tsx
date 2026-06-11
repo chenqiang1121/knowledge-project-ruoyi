@@ -23,7 +23,7 @@ export type DataScopeFormProps = {
 
 const UserSelectorModal: React.FC<DataScopeFormProps> = (props) => {
   
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [statusOptions, setStatusOptions] = useState<any>([]);
 
@@ -46,7 +46,7 @@ const UserSelectorModal: React.FC<DataScopeFormProps> = (props) => {
       title: <FormattedMessage id="system.user.user_id" defaultMessage="用户编号" />,
       dataIndex: 'userId',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="system.user.user_name" defaultMessage="用户账号" />,
@@ -57,7 +57,7 @@ const UserSelectorModal: React.FC<DataScopeFormProps> = (props) => {
       title: <FormattedMessage id="system.user.nick_name" defaultMessage="用户昵称" />,
       dataIndex: 'nickName',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="system.user.phonenumber" defaultMessage="手机号码" />,
@@ -68,7 +68,7 @@ const UserSelectorModal: React.FC<DataScopeFormProps> = (props) => {
       title: <FormattedMessage id="system.user.status" defaultMessage="帐号状态" />,
       dataIndex: 'status',
       valueType: 'select',
-      hideInSearch: true,
+      search: false,
       valueEnum: statusOptions,
       render: (_, record) => {
         return (<DictTag enums={statusOptions} value={record.status} />);
@@ -78,7 +78,7 @@ const UserSelectorModal: React.FC<DataScopeFormProps> = (props) => {
       title: <FormattedMessage id="system.user.create_time" defaultMessage="创建时间" />,
       dataIndex: 'createTime',
       valueType: 'dateRange',
-      hideInSearch: true,
+      search: false,
       render: (_, record) => {
         return (<span>{record.createTime.toString()} </span>);
       },
@@ -93,7 +93,7 @@ const UserSelectorModal: React.FC<DataScopeFormProps> = (props) => {
         defaultMessage: '选择用户',
       })}
       open={props.open}
-      destroyOnClose
+      destroyOnHidden
       onOk={handleOk}
       onCancel={handleCancel}
     >

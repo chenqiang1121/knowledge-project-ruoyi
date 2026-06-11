@@ -1,6 +1,6 @@
 import { formatTreeData } from '@/utils/tree';
 import { request } from '@umijs/max';
-import { DataNode } from 'antd/es/tree';
+import type { DataNode } from 'antd/es/tree';
 import { downLoadXlsx } from '@/utils/downloadfile';
 
 // 查询用户信息列表

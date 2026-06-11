@@ -1,8 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useIntl, FormattedMessage, useAccess, history } from '@umijs/max';
-import { Dropdown, FormInstance, Space } from 'antd';
-import { Button, message, Modal } from 'antd';
+import { Button, Dropdown, FormInstance, Modal, Space, message } from 'antd';
 import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
 import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined, DownOutlined, EditOutlined } from '@ant-design/icons';
 import { getJobList, removeJob, addJob, updateJob, exportJob, runJob } from '@/services/monitor/job';
@@ -128,12 +127,12 @@ const handleExport = async () => {
 
 
 const JobTableList: React.FC = () => {
-  const formTableRef = useRef<FormInstance>();
+  const formTableRef = { current: undefined as any };
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [detailModalVisible, setDetailModalVisible] = useState<boolean>(false);
 
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   const [currentRow, setCurrentRow] = useState<API.Monitor.Job>();
   const [selectedRows, setSelectedRows] = useState<API.Monitor.Job[]>([]);
 
@@ -159,7 +158,7 @@ const JobTableList: React.FC = () => {
       title: <FormattedMessage id="monitor.job.job_id" defaultMessage="任务编号" />,
       dataIndex: 'jobId',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="monitor.job.job_name" defaultMessage="任务名称" />,

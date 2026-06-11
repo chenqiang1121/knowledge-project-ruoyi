@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Checkbox, Col, Form, Modal, Row, Tree } from 'antd';
 import { FormattedMessage, useIntl } from '@umijs/max';
 import { Key, ProForm, ProFormDigit, ProFormSelect, ProFormText } from '@ant-design/pro-components';
-import { DataNode } from 'antd/es/tree';
-import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import type { DataNode } from 'antd/es/tree';
+type CheckboxValueType = string | number | boolean;
 
 /* *
  *
@@ -97,7 +97,7 @@ const DataScopeForm: React.FC<DataScopeFormProps> = (props) => {
                 defaultMessage: '分配角色',
             })}
             open={props.open}
-            destroyOnClose
+            destroyOnHidden
             forceRender
             onOk={handleOk}
             onCancel={handleCancel}
@@ -179,7 +179,7 @@ const DataScopeForm: React.FC<DataScopeFormProps> = (props) => {
                     ]}
                     fieldProps={{
                         onChange: (value) => {
-                            setDataScopeType(value);
+                            setDataScopeType(value as string);
                         },
                     }}
                 />

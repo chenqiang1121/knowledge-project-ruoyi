@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useIntl, FormattedMessage, useAccess } from '@umijs/max';
 import type { FormInstance } from 'antd';
-import { Button, message, Modal } from 'antd';
+import { Button,  Modal, message } from 'antd';
 import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
 import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { getPostList, removePost, addPost, updatePost, exportPost } from '@/services/system/post';
@@ -121,11 +121,11 @@ const handleExport = async () => {
 
 
 const PostTableList: React.FC = () => {
-  const formTableRef = useRef<FormInstance>();
+  const formTableRef = { current: undefined as any };
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   const [currentRow, setCurrentRow] = useState<API.System.Post>();
   const [selectedRows, setSelectedRows] = useState<API.System.Post[]>([]);
 
@@ -162,7 +162,7 @@ const PostTableList: React.FC = () => {
       title: <FormattedMessage id="system.post.post_sort" defaultMessage="显示顺序" />,
       dataIndex: 'postSort',
       valueType: 'text',
-      hideInSearch: true,
+      search: false,
     },
     {
       title: <FormattedMessage id="system.post.status" defaultMessage="状态" />,

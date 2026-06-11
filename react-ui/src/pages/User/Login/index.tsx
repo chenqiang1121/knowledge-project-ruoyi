@@ -15,55 +15,57 @@ import {
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
-import { useEmotionCss } from '@ant-design/use-emotion-css';
+import { createStyles } from 'antd-style';
 import { FormattedMessage, history, SelectLang, useIntl, useModel, Helmet } from '@umijs/max';
-import { Alert, Col, message, Row, Tabs, Image } from 'antd';
+import { Alert, Col,  Row, Tabs, Image, message } from 'antd';
 import Settings from '../../../../config/defaultSettings';
 import React, { useEffect, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { clearSessionToken, setSessionToken } from '@/access';
 
-const ActionIcons = () => {
-  const langClassName = useEmotionCss(({ token }) => {
-    return {
-      marginLeft: '8px',
-      color: 'rgba(0, 0, 0, 0.2)',
-      fontSize: '24px',
-      verticalAlign: 'middle',
-      cursor: 'pointer',
-      transition: 'color 0.3s',
-      '&:hover': {
-        color: token.colorPrimaryActive,
-      },
-    };
-  });
+const useActionStyles = createStyles(({ token }) => ({
+  icon: {
+    marginLeft: '8px',
+    color: 'rgba(0, 0, 0, 0.2)',
+    fontSize: '24px',
+    verticalAlign: 'middle',
+    cursor: 'pointer',
+    transition: 'color 0.3s',
+    '&:hover': {
+      color: token.colorPrimaryActive,
+    },
+  },
+}));
 
+const ActionIcons = () => {
+  const { styles } = useActionStyles();
   return (
     <>
-      <AlipayCircleOutlined key="AlipayCircleOutlined" className={langClassName} />
-      <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={langClassName} />
-      <WeiboCircleOutlined key="WeiboCircleOutlined" className={langClassName} />
+      <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />
+      <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.icon} />
+      <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />
     </>
   );
 };
 
-const Lang = () => {
-  const langClassName = useEmotionCss(({ token }) => {
-    return {
-      width: 42,
-      height: 42,
-      lineHeight: '42px',
-      position: 'fixed',
-      right: 16,
-      borderRadius: token.borderRadius,
-      ':hover': {
-        backgroundColor: token.colorBgTextHover,
-      },
-    };
-  });
+const useLangStyles = createStyles(({ token }) => ({
+  lang: {
+    width: 42,
+    height: 42,
+    lineHeight: '42px',
+    position: 'fixed',
+    right: 16,
+    borderRadius: token.borderRadius,
+    ':hover': {
+      backgroundColor: token.colorBgTextHover,
+    },
+  },
+}));
 
+const Lang = () => {
+  const { styles } = useLangStyles();
   return (
-    <div className={langClassName} data-lang>
+    <div className={styles.lang} data-lang>
       {SelectLang && <SelectLang />}
     </div>
   );
@@ -91,8 +93,8 @@ const Login: React.FC = () => {
   const [captchaCode, setCaptchaCode] = useState<string>('');
   const [uuid, setUuid] = useState<string>('');
 
-  const containerClassName = useEmotionCss(() => {
-    return {
+  const { styles: containerStyles } = createStyles(() => ({
+    container: {
       display: 'flex',
       flexDirection: 'column',
       height: '100vh',
@@ -100,8 +102,8 @@ const Login: React.FC = () => {
       backgroundImage:
         "url('https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/V-_oS6r-i7wAAAAAAAAAAAAAFl94AQBr')",
       backgroundSize: '100% 100%',
-    };
-  });
+    },
+  }))();
 
   const intl = useIntl();
 
@@ -167,7 +169,7 @@ const Login: React.FC = () => {
   }, []);
 
   return (
-    <div className={containerClassName}>
+    <div className={containerStyles.container}>
       <Helmet>
         <title>
           {intl.formatMessage({

@@ -9,7 +9,7 @@ import {
 } from '@ant-design/pro-components';
 import { Form, Modal } from 'antd';
 import { useIntl, FormattedMessage } from '@umijs/max';
-import { DataNode } from 'antd/es/tree';
+import type { DataNode } from 'antd/es/tree';
 import { DictValueEnumObj } from '@/components/DictTag';
 
 /* *
@@ -82,7 +82,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
         defaultMessage: '编辑用户信息',
       })}
       open={props.open}
-      destroyOnClose
+      destroyOnHidden
       onOk={handleOk}
       onCancel={handleCancel}
     >

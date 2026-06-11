@@ -1,22 +1,19 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useIntl, FormattedMessage, useAccess } from '@umijs/max';
-import { Card, Col, Dropdown, FormInstance, Row, Space, Switch } from 'antd';
-import { Button, message, Modal } from 'antd';
+import { App, Button, Card, Col, Dropdown, FormInstance, Modal, Row, Space, Switch } from 'antd';
 import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
 import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined, DownOutlined, EditOutlined } from '@ant-design/icons';
 import { getUserList, removeUser, addUser, updateUser, exportUser, getUser, changeUserStatus, updateAuthRole, resetUserPwd } from '@/services/system/user';
 import UpdateForm from './edit';
 import { getDictValueEnum } from '@/services/system/dict';
-import { DataNode } from 'antd/es/tree';
+import type { DataNode } from 'antd/es/tree';
 import { getDeptTree } from '@/services/system/user';
 import DeptTree from './components/DeptTree';
 import ResetPwd from './components/ResetPwd';
 import { getPostList } from '@/services/system/post';
 import { getRoleList } from '@/services/system/role';
 import AuthRoleForm from './components/AuthRole';
-
-const { confirm } = Modal;
 
 /* *
  *
@@ -25,109 +22,93 @@ const { confirm } = Modal;
  *
  * */
 
-/**
- * 添加节点
- *
- * @param fields
- */
-const handleAdd = async (fields: API.System.User) => {
-  const hide = message.loading('正在添加');
-  try {
-    await addUser({ ...fields });
-    hide();
-    message.success('添加成功');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('添加失败请重试！');
-    return false;
-  }
-};
-
-/**
- * 更新节点
- *
- * @param fields
- */
-const handleUpdate = async (fields: API.System.User) => {
-  const hide = message.loading('正在配置');
-  try {
-    await updateUser(fields);
-    hide();
-    message.success('配置成功');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('配置失败请重试！');
-    return false;
-  }
-};
-
-/**
- * 删除节点
- *
- * @param selectedRows
- */
-const handleRemove = async (selectedRows: API.System.User[]) => {
-  const hide = message.loading('正在删除');
-  if (!selectedRows) return true;
-  try {
-    await removeUser(selectedRows.map((row) => row.userId).join(','));
-    hide();
-    message.success('删除成功，即将刷新');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('删除失败，请重试');
-    return false;
-  }
-};
-
-const handleRemoveOne = async (selectedRow: API.System.User) => {
-  const hide = message.loading('正在删除');
-  if (!selectedRow) return true;
-  try {
-    const params = [selectedRow.userId];
-    await removeUser(params.join(','));
-    hide();
-    message.success('删除成功，即将刷新');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('删除失败，请重试');
-    return false;
-  }
-};
-
-/**
- * 导出数据
- *
- *
- */
-const handleExport = async () => {
-  const hide = message.loading('正在导出');
-  try {
-    await exportUser();
-    hide();
-    message.success('导出成功');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('导出失败，请重试');
-    return false;
-  }
-};
-
 const UserTableList: React.FC = () => {
-  const [messageApi, contextHolder] = message.useMessage();
+  const { message, modal } = App.useApp();
 
-  const formTableRef = useRef<FormInstance>();
+  const handleAdd = async (fields: API.System.User) => {
+    const hide = message.loading('正在添加');
+    try {
+      await addUser({ ...fields });
+      hide();
+      message.success('添加成功');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('添加失败请重试！');
+      return false;
+    }
+  };
+
+  const handleUpdate = async (fields: API.System.User) => {
+    const { message } = App.useApp();
+    const hide = message.loading('正在配置');
+    try {
+      await updateUser(fields);
+      hide();
+      message.success('配置成功');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('配置失败请重试！');
+      return false;
+    }
+  };
+
+  const handleRemove = async (selectedRows: API.System.User[]) => {
+
+    const hide = message.loading('正在删除');
+    if (!selectedRows) return true;
+    try {
+      await removeUser(selectedRows.map((row) => row.userId).join(','));
+      hide();
+      message.success('删除成功，即将刷新');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('删除失败，请重试');
+      return false;
+    }
+  };
+
+  const handleRemoveOne = async (selectedRow: API.System.User) => {
+    const { message } = App.useApp();
+    const hide = message.loading('正在删除');
+    if (!selectedRow) return true;
+    try {
+      const params = [selectedRow.userId];
+      await removeUser(params.join(','));
+      hide();
+      message.success('删除成功，即将刷新');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('删除失败，请重试');
+      return false;
+    }
+  };
+
+  const handleExport = async () => {
+    const { message } = App.useApp();
+    const hide = message.loading('正在导出');
+    try {
+      await exportUser();
+      hide();
+      message.success('导出成功');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('导出失败，请重试');
+      return false;
+    }
+  };
+
+  const formTableRef = { current: undefined as any };
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [resetPwdModalVisible, setResetPwdModalVisible] = useState<boolean>(false);
   const [authRoleModalVisible, setAuthRoleModalVisible] = useState<boolean>(false);
 
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   const [currentRow, setCurrentRow] = useState<API.System.User>();
   const [selectedRows, setSelectedRows] = useState<API.System.User[]>([]);
 
@@ -156,20 +137,21 @@ const UserTableList: React.FC = () => {
   }, []);
 
   const showChangeStatusConfirm = (record: API.System.User) => {
+    const { message } = App.useApp();
     let text = record.status === "1" ? "启用" : "停用";
     const newStatus = record.status === '0' ? '1' : '0';
-    confirm({
+    Modal.confirm({
       title: `确认要${text}${record.userName}用户吗？`,
       onOk() {
         changeUserStatus(record.userId, newStatus).then(resp => {
           if (resp.code === 200) {
-            messageApi.open({
+            message.success({
               type: 'success',
               content: '更新成功！',
             });
             actionRef.current?.reload();
           } else {
-            messageApi.open({
+            message.success({
               type: 'error',
               content: '更新失败！',
             });
@@ -221,7 +203,7 @@ const UserTableList: React.FC = () => {
       title: <FormattedMessage id="system.user.dept_name" defaultMessage="部门" />,
       dataIndex: ['dept', 'deptName'],
       valueType: 'text',
-      hideInSearch: true
+      search: false
     },
     {
       title: <FormattedMessage id="system.user.phonenumber" defaultMessage="手机号码" />,
@@ -333,7 +315,7 @@ const UserTableList: React.FC = () => {
 
   return (
     <PageContainer>
-      {contextHolder}
+
       <Row gutter={[16, 24]}>
         <Col lg={6} md={24}>
           <Card>

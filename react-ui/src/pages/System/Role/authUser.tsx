@@ -58,7 +58,7 @@ const AuthUserTableList: React.FC = () => {
 
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
 
-	const actionRef = useRef<ActionType>();
+	const actionRef = useRef<ActionType>(null);
 	const [selectedRows, setSelectedRows] = useState<API.System.User[]>([]);
 	const [statusOptions, setStatusOptions] = useState<any>([]);
 
@@ -107,7 +107,7 @@ const AuthUserTableList: React.FC = () => {
 			render: (_, record) => {
 				return (<span>{record.createTime.toString()} </span>);
 			},
-			hideInSearch: true,
+			search: false,
 		},
 		{
 			title: <FormattedMessage id="system.user.status" defaultMessage="帐号状态" />,
@@ -216,9 +216,10 @@ const AuthUserTableList: React.FC = () => {
 					]}
 					request={(params) =>
 						allocatedUserList({ ...params, roleId } as API.System.RoleListParams).then((res) => {
+							const rows = res?.rows ?? [];
 							const result = {
-								data: res.rows,
-								total: res.total,
+								data: rows,
+								total: res?.total ?? rows.length,
 								success: true,
 							};
 							return result;
@@ -258,9 +259,10 @@ const AuthUserTableList: React.FC = () => {
 				params={{roleId}}
 				request={(params) =>
 					unallocatedUserList({ ...params } as API.System.RoleListParams).then((res) => {
+						const rows = res?.rows ?? [];
 						const result = {
-							data: res.rows,
-							total: res.rows.length,
+							data: rows,
+							total: res?.total ?? rows.length,
 							success: true,
 						};
 						return result;

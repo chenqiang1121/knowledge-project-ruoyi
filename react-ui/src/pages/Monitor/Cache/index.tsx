@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Col, Row, Table } from 'antd';
-import { DataItem } from '@antv/g2plot/esm/interface/config';
 import { Gauge, Pie } from '@ant-design/plots';
-import styles from './index.less';
+
+type VisitDataType = { x: string; y: number };
+import styles from './index.module.css';
 import { getCacheInfo } from '@/services/monitor/cache';
 
 
@@ -80,7 +81,7 @@ const CacheInfo: React.FC = () => {
   const [baseInfoData, setBaseInfoData] = useState<any>([]);
   const [memUsage, setMemUsage] = useState<Number>(0);
   const [memUsageTitle, setMemUsageTitle] = useState<any>([]);
-  const [cmdInfoData, setCmdInfoData] = useState<DataItem[]>([]);
+  const [cmdInfoData, setCmdInfoData] = useState<VisitDataType[]>([]);
   useEffect(() => {
     getCacheInfo().then((res) => {
       if (res.code === 200) {

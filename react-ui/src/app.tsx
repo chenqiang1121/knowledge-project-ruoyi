@@ -2,6 +2,7 @@ import { Footer, Question, SelectLang, AvatarDropdown, AvatarName } from '@/comp
 import { LinkOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
+import { App } from 'antd';
 import type { RunTimeLayoutConfig } from '@umijs/max';
 import { history, Link } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
@@ -68,7 +69,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       src: initialState?.currentUser?.avatar,
       title: <AvatarName />,
       render: (_, avatarChildren) => {
-        return <AvatarDropdown menu="True">{avatarChildren}</AvatarDropdown>;
+        return <AvatarDropdown menu={true}>{avatarChildren}</AvatarDropdown>;
       },
     },
     waterMarkProps: {
@@ -130,7 +131,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     childrenRender: (children) => {
       // if (initialState?.loading) return <PageLoading />;
       return (
-        <>
+        <App>
           {children}
           <SettingDrawer
             disableUrlParams
@@ -143,14 +144,14 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
               }));
             }}
           />
-        </>
+        </App>
       );
     },
     ...initialState?.settings,
   };
 };
 
-export async function onRouteChange({ clientRoutes, location }) {
+export async function onRouteChange({ clientRoutes, location }: { clientRoutes: any; location: any }) {
   const menus = getRemoteMenu();
  // console.log('onRouteChange', clientRoutes, location, menus);
   if(menus === null && location.pathname !== PageEnum.LOGIN) {
@@ -164,7 +165,7 @@ export async function onRouteChange({ clientRoutes, location }) {
 // }
 
 
-export async function patchClientRoutes({ routes }) {
+export async function patchClientRoutes({ routes }: { routes: any }) {
   // console.log('patchClientRoutes', routes);
   patchRouteWithRemoteMenus(routes);
 }
@@ -189,7 +190,7 @@ export function render(oldRender: () => void) {
  */
 const checkRegion = 5 * 60 * 1000;
 
-export const request = {
+export const request: any = {
   ...errorConfig,
   requestInterceptors: [
     (url: any, options: { headers: any }) => {

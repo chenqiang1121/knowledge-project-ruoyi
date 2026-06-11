@@ -8,7 +8,7 @@ import {
 } from '@ant-design/pro-components';
 import { Form, Modal} from 'antd';
 import { useIntl, FormattedMessage } from '@umijs/max';
-import { DataNode } from 'antd/es/tree';
+import type { DataNode } from 'antd/es/tree';
 import { DictValueEnumObj } from '@/components/DictTag';
 
 export type DeptFormData = Record<string, unknown> & Partial<API.System.Dept>;
@@ -67,7 +67,7 @@ const DeptForm: React.FC<DeptFormProps> = (props) => {
       })}
       open={props.open}
       forceRender
-      destroyOnClose
+      destroyOnHidden
       onOk={handleOk}
       onCancel={handleCancel}
     >

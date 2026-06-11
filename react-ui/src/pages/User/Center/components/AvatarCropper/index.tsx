@@ -4,7 +4,7 @@ import { useIntl } from '@umijs/max';
 import { uploadAvatar } from '@/services/system/user';
 import { Cropper } from 'react-cropper';
 import './cropper.css';
-import styles from './index.less';
+import styles from './index.module.css';
 import {
   MinusOutlined,
   PlusOutlined,
@@ -95,7 +95,7 @@ const AvatarCropperForm: React.FC<AvatarCropperProps> = (props) => {
         defaultMessage: '修改头像',
       })}
       open={props.open}
-      destroyOnClose
+      destroyOnHidden
       onOk={handleOk}
       onCancel={handleCancel}
     >

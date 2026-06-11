@@ -3,7 +3,7 @@ import type { GenCodeType } from '../data';
 import { Button, Checkbox, Col, Row, Tag } from 'antd';
 import type { FormInstance } from 'antd';
 import { history } from '@umijs/max';
-import styles from '../style.less';
+import styles from '../style.module.css';
 import { EditableProTable, ProColumns } from '@ant-design/pro-components';
 
 export type ColumnInfoProps = {
@@ -25,7 +25,7 @@ const booleanEnum = [
 ];
 
 const ColumnInfo: React.FC<ColumnInfoProps> = (props) => {
-  const formRef = useRef<FormInstance>();
+  const formRef = { current: undefined as any };
 
   const [dataSource, setDataSource] = useState<any[]>();
 
@@ -49,7 +49,7 @@ const ColumnInfo: React.FC<ColumnInfoProps> = (props) => {
       title: '字段描述',
       dataIndex: 'columnComment',
       hideInForm: true,
-      hideInSearch: true,
+      search: false,
       width: 200,
     },
     {
@@ -175,7 +175,7 @@ const ColumnInfo: React.FC<ColumnInfoProps> = (props) => {
     {
       title: '显示类型',
       dataIndex: 'htmlType',
-      hideInSearch: true,
+      search: false,
       valueType: 'select',
       valueEnum: {
         input: {
@@ -210,7 +210,7 @@ const ColumnInfo: React.FC<ColumnInfoProps> = (props) => {
     {
       title: '字典类型',
       dataIndex: 'dictType',
-      hideInSearch: true,
+      search: false,
       valueType: 'select',
       fieldProps: {
         options: dictData,

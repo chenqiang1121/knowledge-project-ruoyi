@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import BaseInfo from './components/BaseInfo';
-import { Card, Layout, message, Steps } from 'antd';
+import { Card, Layout,  Steps, message } from 'antd';
 import ColumnInfo from './components/ColumnInfo';
 import GenInfo from './components/GenInfo';
 import { getGenCode, updateData } from './service';
 import { formatTreeData } from '@/utils/tree';
-import styles from './style.less';
+import styles from './style.module.css';
 import type { GenCodeType } from './data';
 import { getMenuTree } from '@/services/system/menu';
 import { getDictTypeList } from '@/services/system/dict';
@@ -139,7 +139,7 @@ const TableList: React.FC = () => {
 
     getDictTypeList().then((res: any) => {
       if (res.code === 200) {
-        const dicts = res.rows.map((item: any) => {
+        const dicts = (res.rows ?? []).map((item: any) => {
           return {
             label: item.dictName,
             value: item.dictType,
@@ -162,7 +162,7 @@ const TableList: React.FC = () => {
 
   return (
     <Content>
-      <Card className={styles.tabsCard} bordered={false}>
+      <Card className={styles.tabsCard} variant="borderless">
         <Steps current={currentStep} className={styles.steps} items={[
           {
             title: '基本信息',
