@@ -85,12 +85,8 @@
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
   },
-  "overrides": {
-    "react": "$react",
-    "react-dom": "$react-dom"
-  },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "create-umi": {
     "ignoreScript": [

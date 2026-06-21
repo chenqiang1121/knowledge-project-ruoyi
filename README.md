@@ -12,6 +12,69 @@
 * 支持加载动态权限菜单，多方式轻松权限控制。
 * 高效率开发，使用代码生成器可以一键生成前后端代码。
 
+## 项目结构与依赖环境
+
+### 项目结构
+
+- `ruoyi-admin`：后端启动模块，入口类为 `com.ruoyi.RuoYiApplication`。
+- `ruoyi-framework`：Spring Security、Redis、数据源、全局异常、拦截器等基础框架能力。
+- `ruoyi-system`：用户、角色、菜单、部门、岗位、字典、参数等系统管理业务。
+- `ruoyi-quartz`：定时任务模块。
+- `ruoyi-generator`：代码生成模块。
+- `ruoyi-common`：公共工具、注解、常量、通用实体。
+- `react-ui`：React + Umi Max + Ant Design Pro 前端工程。
+- `sql`：数据库初始化脚本，包含 `ry_react.sql` 与 `quartz.sql`。
+
+### 后端运行依赖
+
+- JDK：17。
+- Maven：建议 3.8+。
+- MySQL：建议 8.x，当前驱动版本为 `mysql-connector-j 8.2.0`。
+- Redis：默认连接 `localhost:6379`。
+- Spring Boot：3.3.0。
+- 主要后端组件：Spring Security、MyBatis、PageHelper、Druid、Fastjson2、JWT、Springdoc OpenAPI、Quartz、Apache POI、Velocity。
+
+后端启动前需要先导入 `sql/ry_react.sql` 和 `sql/quartz.sql`，并检查 `ruoyi-admin/src/main/resources/application-druid.yml` 中的数据库连接配置。
+
+### 前端运行依赖
+
+- Node.js：`react-ui/package.json` 声明为 `>=22.0.0`；当前依赖链中的 `lint-staged@17`、`listr2@10` 要求 Node 22，建议使用 Node.js 22 LTS。
+- npm：建议使用随 Node 22 附带的 npm 10+。
+- 前端核心依赖：React 19、React DOM 19、Umi Max 4、Ant Design 6、Ant Design Pro Components 3、TypeScript 6、Tailwind CSS 4、Biome、Jest。
+
+前端安装与启动：
+
+```bash
+cd react-ui
+npm install
+npm run dev
+```
+
+### react-ui 中 npm install 失败原因与升级处理
+
+升级前 `react-ui/package.json` 中存在如下配置：
+
+```json
+"overrides": {
+  "react": "$react",
+  "react-dom": "$react-dom"
+}
+```
+
+在本地使用 Node `v20.19.5`、npm `10.8.2` 执行 `npm install` 时，npm 在构建依赖树阶段报错：
+
+```text
+npm error Unable to resolve reference $react
+```
+
+直接原因是 npm 无法解析 `overrides` 中的 `$react` / `$react-dom` 引用。当前已按升级方式删除该 `overrides` 配置，并将 `engines.node` 调整为 `>=22.0.0`，使前端依赖声明与升级后的工具链要求保持一致。
+
+重新安装建议：
+
+1. 使用 Node.js 22 LTS。
+2. 删除旧的 `node_modules` 和 `package-lock.json`。
+3. 执行 `npm install`，重新生成与当前依赖配置一致的锁文件。
+
 
 ## 内置功能
 
@@ -44,9 +107,9 @@ https://gitee.com/whiteshader/ruoyi-cloud-vben/blob/master/ruoyi-react-demo-2023
 
 ## 前端开发注意事项
 
-Node：建议v16或以上
+Node：`package.json` 声明为 `>=22.0.0`，建议使用 Node.js 22 LTS
 
-安装依赖请支行：npm i
+安装依赖请执行：npm install
 
 正常启动请运行: npm run dev
 

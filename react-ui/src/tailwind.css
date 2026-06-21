@@ -1,3 +1,7 @@
 @import "tailwindcss";
 
 @source "./src";
+
+.ant-pro-page-container .ant-pro-page-header-heading {
+  display: none;
+}

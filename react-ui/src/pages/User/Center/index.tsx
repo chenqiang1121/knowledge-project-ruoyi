@@ -13,7 +13,6 @@ import BaseInfo from './components/BaseInfo';
 import ResetPassword from './components/ResetPassword';
 import AvatarCropper from './components/AvatarCropper';
 import { getUserInfo } from '@/services/session';
-import { PageLoading } from '@ant-design/pro-components';
 
 const operationTabList = [
   {
@@ -45,9 +44,13 @@ const Center: React.FC = () => {
   //  获取用户信息
   const [userInfo, setUserInfo] = useState<any>();
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   useEffect(() => {
     getUserInfo().then((data) => {
-      setUserInfo({ data });
+      setUserInfo(data);
+      setLoadError(false);
+    }).catch(() => {
+      setLoadError(true);
     }).finally(() => {
       setLoading(false);
     });
@@ -139,7 +142,7 @@ const Center: React.FC = () => {
   };
 
   if (!currentUser) {
-    return <PageLoading />;
+    return <div>{loadError ? '用户信息加载失败' : '暂无用户信息'}</div>;
   }
 
   return (
