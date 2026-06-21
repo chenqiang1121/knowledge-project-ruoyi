@@ -3,6 +3,66 @@ import { MenuDataItem } from '@ant-design/pro-components';
 import { request } from '@umijs/max';
 import React, { lazy } from 'react';
 
+type PageLoader = () => Promise<{ default: React.ComponentType<any> }>;
+
+const pageLoaders: Record<string, PageLoader> = {
+  'Monitor/Cache/index.tsx': () => import('@/pages/Monitor/Cache/index'),
+  'Monitor/Cache/List.tsx': () => import('@/pages/Monitor/Cache/List'),
+  'Monitor/Druid/index.tsx': () => import('@/pages/Monitor/Druid/index'),
+  'Monitor/Job/detail.tsx': () => import('@/pages/Monitor/Job/detail'),
+  'Monitor/Job/edit.tsx': () => import('@/pages/Monitor/Job/edit'),
+  'Monitor/Job/index.tsx': () => import('@/pages/Monitor/Job/index'),
+  'Monitor/JobLog/detail.tsx': () => import('@/pages/Monitor/JobLog/detail'),
+  'Monitor/JobLog/index.tsx': () => import('@/pages/Monitor/JobLog/index'),
+  'Monitor/Logininfor/edit.tsx': () => import('@/pages/Monitor/Logininfor/edit'),
+  'Monitor/Logininfor/index.tsx': () => import('@/pages/Monitor/Logininfor/index'),
+  'Monitor/Online/index.tsx': () => import('@/pages/Monitor/Online/index'),
+  'Monitor/Operlog/detail.tsx': () => import('@/pages/Monitor/Operlog/detail'),
+  'Monitor/Operlog/index.tsx': () => import('@/pages/Monitor/Operlog/index'),
+  'Monitor/Server/index.tsx': () => import('@/pages/Monitor/Server/index'),
+  'System/Config/edit.tsx': () => import('@/pages/System/Config/edit'),
+  'System/Config/index.tsx': () => import('@/pages/System/Config/index'),
+  'System/Dept/edit.tsx': () => import('@/pages/System/Dept/edit'),
+  'System/Dept/index.tsx': () => import('@/pages/System/Dept/index'),
+  'System/Dict/edit.tsx': () => import('@/pages/System/Dict/edit'),
+  'System/Dict/index.tsx': () => import('@/pages/System/Dict/index'),
+  'System/DictData/edit.tsx': () => import('@/pages/System/DictData/edit'),
+  'System/DictData/index.tsx': () => import('@/pages/System/DictData/index'),
+  'System/Logininfor/edit.tsx': () => import('@/pages/System/Logininfor/edit'),
+  'System/Logininfor/index.tsx': () => import('@/pages/System/Logininfor/index'),
+  'System/Menu/edit.tsx': () => import('@/pages/System/Menu/edit'),
+  'System/Menu/index.tsx': () => import('@/pages/System/Menu/index'),
+  'System/Notice/edit.tsx': () => import('@/pages/System/Notice/edit'),
+  'System/Notice/index.tsx': () => import('@/pages/System/Notice/index'),
+  'System/Operlog/detail.tsx': () => import('@/pages/System/Operlog/detail'),
+  'System/Operlog/index.tsx': () => import('@/pages/System/Operlog/index'),
+  'System/Post/edit.tsx': () => import('@/pages/System/Post/edit'),
+  'System/Post/index.tsx': () => import('@/pages/System/Post/index'),
+  'System/Role/authUser.tsx': () => import('@/pages/System/Role/authUser'),
+  'System/Role/edit.tsx': () => import('@/pages/System/Role/edit'),
+  'System/Role/index.tsx': () => import('@/pages/System/Role/index'),
+  'System/User/edit.tsx': () => import('@/pages/System/User/edit'),
+  'System/User/index.tsx': () => import('@/pages/System/User/index'),
+  'Tool/Build/index.tsx': () => import('@/pages/Tool/Build/index'),
+  'Tool/Gen/edit.tsx': () => import('@/pages/Tool/Gen/edit'),
+  'Tool/Gen/import.tsx': () => import('@/pages/Tool/Gen/import'),
+  'Tool/Gen/index.tsx': () => import('@/pages/Tool/Gen/index'),
+  'Tool/Swagger/index.tsx': () => import('@/pages/Tool/Swagger/index'),
+  'User/Center/index.tsx': () => import('@/pages/User/Center/index'),
+  'User/Login/index.tsx': () => import('@/pages/User/Login/index'),
+  'User/Settings/index.tsx': () => import('@/pages/User/Settings/index'),
+  'Welcome.tsx': () => import('@/pages/Welcome'),
+};
+
+function getPageLoader(path: string): PageLoader {
+  const loader = pageLoaders[path];
+  if (!loader) {
+    console.warn(`[router] Unknown remote menu component: ${path}`);
+    return () => import('@/pages/404');
+  }
+  return loader;
+}
+
 
 let remoteMenu: any = null;
 
@@ -60,7 +120,7 @@ function patchRouteItems(route: any, menu: any, parentPath: string) {
         route.children = [];
       }
       const newRoute = {
-        element: React.createElement(lazy(() => import('@/pages/' + path))),
+        element: React.createElement(lazy(getPageLoader(path))),
         path: parentPath + menuItem.path,
       }
       route.children.push(newRoute);

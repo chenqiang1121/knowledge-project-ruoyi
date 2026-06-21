@@ -236,7 +236,7 @@ const UserTableList: React.FC = () => {
           type="link"
           size="small"
           key="edit"
-          icon=<EditOutlined />
+          icon={<EditOutlined />}
           hidden={!access.hasPerms('system:user:edit')}
           onClick={async () => {
             fetchUserInfo(record.userId);
@@ -252,7 +252,7 @@ const UserTableList: React.FC = () => {
           type="link"
           size="small"
           danger
-          icon=<DeleteOutlined />
+          icon={<DeleteOutlined />}
           key="batchRemove"
           hidden={!access.hasPerms('system:user:remove')}
           onClick={async () => {

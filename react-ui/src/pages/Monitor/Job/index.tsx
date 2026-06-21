@@ -215,7 +215,7 @@ const JobTableList: React.FC = () => {
           type="link"
           size="small"
           key="edit"
-          icon = <EditOutlined />
+          icon={<EditOutlined />}
           hidden={!access.hasPerms('monitor:job:edit')}
           onClick={() => {
             setModalVisible(true);
@@ -229,7 +229,7 @@ const JobTableList: React.FC = () => {
           size="small"
           danger
           key="batchRemove"
-          icon = <DeleteOutlined />
+          icon={<DeleteOutlined />}
           hidden={!access.hasPerms('monitor:job:remove')}
           onClick={async () => {
             Modal.confirm({

@@ -12,7 +12,8 @@ import { useIntl, FormattedMessage } from '@umijs/max';
 import type { DataNode } from 'antd/es/tree';
 import { createIcon } from '@/utils/IconUtil';
 import { DictValueEnumObj } from '@/components/DictTag';
-import IconSelector from '@/components/IconSelector';
+
+const IconSelector = React.lazy(() => import('@/components/IconSelector'));
 
 export type MenuFormData = Record<string, unknown> & Partial<API.System.Menu>;
 
@@ -371,13 +372,17 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
         }}
         footer={null}
       >
-        <IconSelector
-          onSelect={(name: string) => {
-            form.setFieldsValue({ icon: name });
-            setMenuIconName(name);
-            setIconSelectorOpen(false);
-          }}
-        />
+        <React.Suspense fallback={null}>
+          {iconSelectorOpen ? (
+            <IconSelector
+              onSelect={(name: string) => {
+                form.setFieldsValue({ icon: name });
+                setMenuIconName(name);
+                setIconSelectorOpen(false);
+              }}
+            />
+          ) : null}
+        </React.Suspense>
       </Modal>
     </Modal>
   );

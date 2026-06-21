@@ -10,12 +10,15 @@
     "preview": "npm run build && max preview --port 8000",
     "start": "cross-env UMI_ENV=dev max dev",
     "start:dev": "cross-env REACT_APP_ENV=dev MOCK=none UMI_ENV=dev max dev",
+    "dev:vite": "cross-env ENABLE_VITE=1 REACT_APP_ENV=dev MOCK=none UMI_ENV=dev max dev",
+    "dev:openapi": "cross-env ENABLE_OPENAPI=1 REACT_APP_ENV=dev MOCK=none UMI_ENV=dev max dev",
     "start:no-mock": "cross-env MOCK=none UMI_ENV=dev max dev",
     "start:pre": "cross-env REACT_APP_ENV=pre UMI_ENV=dev max dev",
     "start:test": "cross-env REACT_APP_ENV=test MOCK=none UMI_ENV=dev max dev",
     "test": "jest",
     "test:coverage": "npm run jest -- --coverage",
     "test:update": "npm run jest -- -u",
+    "build:vite": "cross-env ENABLE_VITE=1 max build",
     "analyze": "cross-env ANALYZE=1 max build",
     "gh-pages": "gh-pages -d dist",
     "i18n-remove": "node scripts/i18n-remove.js",
@@ -28,7 +31,7 @@
     "openapi": "max openapi",
     "prepare": "cd .. && husky install",
     "tsc": "tsc --noEmit",
-    "record": "cross-env NODE_ENV=development REACT_APP_ENV=test max record --scene=login"
+    "record": "cross-env ENABLE_REQUEST_RECORD=1 NODE_ENV=development REACT_APP_ENV=test max record --scene=login"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",

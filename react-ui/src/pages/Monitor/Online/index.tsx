@@ -103,7 +103,7 @@ const OnlineUserTableList: React.FC = () => {
           size="small"
           danger
           key="batchRemove"
-          icon=<DeleteOutlined />
+          icon={<DeleteOutlined />}
           hidden={!access.hasPerms('monitor:online:forceLogout')}
           onClick={async () => {
             Modal.confirm({

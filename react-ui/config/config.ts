@@ -6,6 +6,10 @@ import proxy from './proxy';
 import routes from './routes';
 
 const { REACT_APP_ENV = 'dev' } = process.env;
+const isProd = process.env.NODE_ENV === 'production';
+const enableVite = process.env.ENABLE_VITE === '1';
+const enableOpenAPI = process.env.ENABLE_OPENAPI === '1';
+const enableRequestRecord = process.env.ENABLE_REQUEST_RECORD === '1';
 
 /**
  * @name 使用公共路径
@@ -72,17 +76,24 @@ export default defineConfig({
    * @description 一个不错的热更新组件，更新时可以保留 state
    */
   fastRefresh: true,
+  mfsu: enableVite
+    ? false
+    : {
+        strategy: 'eager',
+      },
+  ...(enableVite ? { vite: {} } : {}),
+  srcTranspiler: 'babel',
   /**
    * @name 路由预加载
    * @description 预加载路由资源，提升页面切换速度
    * @doc https://umijs.org/docs/api/config#routePrefetch
    */
-  routePrefetch: {},
+  ...(isProd ? { routePrefetch: {} } : {}),
   /**
    * @name manifest 配置
    * @description 生成资源清单，配合 routePrefetch 使用
    */
-  manifest: {},
+  ...(isProd ? { manifest: {} } : {}),
   //============== 以下都是max的插件配置 ===============
   /**
    * @name 数据流插件
@@ -163,33 +174,40 @@ export default defineConfig({
   ],
 
   //================ pro 插件配置 =================
-  plugins: ['@umijs/max-plugin-openapi', '@umijs/request-record'],
+  plugins: [
+    enableOpenAPI && '@umijs/max-plugin-openapi',
+    enableRequestRecord && '@umijs/request-record',
+  ].filter(Boolean) as string[],
 
   /**
    * @name openAPI 插件的配置
    * @description 基于 openapi 的规范生成serve 和mock，能减少很多样板代码
    * @doc https://pro.ant.design/zh-cn/docs/openapi/
    */
-  openAPI: [
-    {
-      requestLibPath: "import { request } from '@umijs/max'",
-      // 或者使用在线的版本
-      // schemaPath: "https://gw.alipayobjects.com/os/antfincdn/M%24jrzTTYJN/oneapi.json"
-      schemaPath: join(__dirname, 'oneapi.json'),
-      mock: false,
-    },
-    {
-      requestLibPath: "import { request } from '@umijs/max'",
-      schemaPath: 'https://gw.alipayobjects.com/os/antfincdn/CA1dOm%2631B/openapi.json',
-      projectName: 'swagger',
-    },
-  ],
+  ...(enableOpenAPI
+    ? {
+        openAPI: [
+          {
+            requestLibPath: "import { request } from '@umijs/max'",
+            // 或者使用在线的版本
+            // schemaPath: "https://gw.alipayobjects.com/os/antfincdn/M%24jrzTTYJN/oneapi.json"
+            schemaPath: join(__dirname, 'oneapi.json'),
+            mock: false,
+          },
+          {
+            requestLibPath: "import { request } from '@umijs/max'",
+            schemaPath: 'https://gw.alipayobjects.com/os/antfincdn/CA1dOm%2631B/openapi.json',
+            projectName: 'swagger',
+          },
+        ],
+      }
+    : {}),
 
   mock: {
     include: ['src/pages/**/_mock.ts'],
     exclude: ['mock/requestRecord.mock.js'],
   },
-  requestRecord: {},
+  ...(enableRequestRecord ? { requestRecord: {} } : {}),
   esbuildMinifyIIFE: true,
   exportStatic: {},
   define: {

@@ -1,5 +1,5 @@
 import type { DataNode } from 'antd/es/tree';
-import { parse } from 'querystring';
+import queryString from 'query-string';
 
 /**
  * 构造树型结构数据
@@ -74,7 +74,7 @@ export function buildTreeData(
   return tree;
 }
 
-export const getPageQuery = () => parse(window.location.href.split('?')[1]);
+export const getPageQuery = () => queryString.parse(window.location.href.split('?')[1]);
 
 export function formatTreeData(arrayList: any): DataNode[] {
   const treeSelectData: DataNode[] = arrayList.map((item: any) => {

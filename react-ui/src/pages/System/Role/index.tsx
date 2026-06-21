@@ -240,7 +240,7 @@ const RoleTableList: React.FC = () => {
           type="link"
           size="small"
           key="edit"
-          icon=<EditOutlined />
+          icon={<EditOutlined />}
           hidden={!access.hasPerms('system:role:edit')}
           onClick={() => {
             getRoleMenuList(record.roleId).then((res) => {
@@ -265,7 +265,7 @@ const RoleTableList: React.FC = () => {
           size="small"
           danger
           key="batchRemove"
-          icon=<DeleteOutlined />
+          icon={<DeleteOutlined />}
           hidden={!access.hasPerms('system:role:remove')}
           onClick={async () => {
             Modal.confirm({
