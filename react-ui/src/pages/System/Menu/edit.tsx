@@ -40,6 +40,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
   useEffect(() => {
     form.resetFields();
     setMenuIconName(props.values.icon);
+    setMenuTypeId(props.values.menuType || 'M');
     form.setFieldsValue({
       menuId: props.values.menuId,
       menuName: props.values.menuName,
@@ -50,7 +51,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
       query: props.values.query,
       isFrame: props.values.isFrame,
       isCache: props.values.isCache,
-      menuType: props.values.menuType,
+      menuType: props.values.menuType || 'M',
       visible: props.values.visible,
       status: props.values.status,
       perms: props.values.perms,

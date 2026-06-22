@@ -11,6 +11,9 @@ import { buildTreeData } from '@/utils/tree';
 import type { DataNode } from 'antd/es/tree';
 import DictTag from '@/components/DictTag';
 
+
+// http://localhost:8000/system/menu 菜单管理
+
 /**
  * 添加节点
  *
