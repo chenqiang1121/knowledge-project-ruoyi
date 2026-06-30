@@ -42,6 +42,25 @@ nbdist/
 *.xml.versionsBackup
 *.swp
 
+######################################################################
+# Python
+
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
 !*/build/*.java
 !*/build/*.html
 !*/build/*.xml
