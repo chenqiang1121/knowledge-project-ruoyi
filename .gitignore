@@ -7,6 +7,7 @@
 
 target/
 !.mvn/wrapper/maven-wrapper.jar
+*/target/
 
 ######################################################################
 # IDE
@@ -41,6 +42,14 @@ nbdist/
 *.log
 *.xml.versionsBackup
 *.swp
+*.tmp
+*.temp
+*.bak
+*.orig
+.DS_Store
+Thumbs.db
+desktop.ini
+~/
 
 ######################################################################
 # Python
@@ -58,8 +67,49 @@ env/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.tox/
+.nox/
+.hypothesis/
 .coverage
+.coverage.*
 htmlcov/
+pip-wheel-metadata/
+*.egg-info/
+dist/
+site/
+python-kb/data/
+!python-kb/data/.gitkeep
+
+######################################################################
+# Node / React UI
+
+node_modules/
+react-ui/node_modules/
+react-ui/dist/
+react-ui/.cache/
+react-ui/.temp/
+react-ui/.eslintcache
+react-ui/.stylelintcache
+react-ui/coverage/
+react-ui/npm-debug.log*
+react-ui/yarn-debug.log*
+react-ui/yarn-error.log*
+react-ui/pnpm-debug.log*
+react-ui/.env
+react-ui/.env.*
+!react-ui/.env.example
+react-ui/src/.umi/
+react-ui/src/.umi-production/
+
+######################################################################
+# Runtime files
+
+logs/
+*/logs/
+uploadPath/
+*/uploadPath/
+profile/
+*/profile/
 
 !*/build/*.java
 !*/build/*.html

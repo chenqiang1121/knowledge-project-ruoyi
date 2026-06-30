@@ -1,8 +1,16 @@
 package com.ruoyi.common.core.domain;
 
-import java.util.HashMap;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 
+import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ruoyi.common.constant.HttpStatus;
 import com.ruoyi.common.utils.StringUtils;
 
@@ -11,7 +19,8 @@ import com.ruoyi.common.utils.StringUtils;
  *
  * @author ruoyi
  */
-public class AjaxResult extends HashMap<String, Object> {
+public class AjaxResult<T> implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
@@ -30,6 +39,27 @@ public class AjaxResult extends HashMap<String, Object> {
     public static final String DATA_TAG = "data";
 
     /**
+     * 状态码
+     */
+    private Integer code;
+
+    /**
+     * 返回内容
+     */
+    private String msg;
+
+    /**
+     * 数据对象
+     */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private T data;
+
+    /**
+     * 扩展字段，用于兼容原 Map 风格的顶层返回字段
+     */
+    private final Map<String, Object> extras = new LinkedHashMap<>();
+
+    /**
      * 初始化一个新创建的 AjaxResult 对象，使其表示一个空消息。
      */
     public AjaxResult() {
@@ -42,8 +72,8 @@ public class AjaxResult extends HashMap<String, Object> {
      * @param msg  返回内容
      */
     public AjaxResult(int code, String msg) {
-        super.put(CODE_TAG, code);
-        super.put(MSG_TAG, msg);
+        this.code = code;
+        this.msg = msg;
     }
 
     /**
@@ -53,11 +83,11 @@ public class AjaxResult extends HashMap<String, Object> {
      * @param msg  返回内容
      * @param data 数据对象
      */
-    public AjaxResult(int code, String msg, Object data) {
-        super.put(CODE_TAG, code);
-        super.put(MSG_TAG, msg);
+    public AjaxResult(int code, String msg, T data) {
+        this.code = code;
+        this.msg = msg;
         if (StringUtils.isNotNull(data)) {
-            super.put(DATA_TAG, data);
+            this.data = data;
         }
     }
 
@@ -66,7 +96,7 @@ public class AjaxResult extends HashMap<String, Object> {
      *
      * @return 成功消息
      */
-    public static AjaxResult success() {
+    public static AjaxResult<Void> success() {
         return AjaxResult.success("操作成功");
     }
 
@@ -75,7 +105,7 @@ public class AjaxResult extends HashMap<String, Object> {
      *
      * @return 成功消息
      */
-    public static AjaxResult success(Object data) {
+    public static <T> AjaxResult<T> success(T data) {
         return AjaxResult.success("操作成功", data);
     }
 
@@ -85,7 +115,7 @@ public class AjaxResult extends HashMap<String, Object> {
      * @param msg 返回内容
      * @return 成功消息
      */
-    public static AjaxResult success(String msg) {
+    public static AjaxResult<Void> success(String msg) {
         return AjaxResult.success(msg, null);
     }
 
@@ -96,8 +126,8 @@ public class AjaxResult extends HashMap<String, Object> {
      * @param data 数据对象
      * @return 成功消息
      */
-    public static AjaxResult success(String msg, Object data) {
-        return new AjaxResult(HttpStatus.SUCCESS, msg, data);
+    public static <T> AjaxResult<T> success(String msg, T data) {
+        return new AjaxResult<>(HttpStatus.SUCCESS, msg, data);
     }
 
     /**
@@ -106,7 +136,7 @@ public class AjaxResult extends HashMap<String, Object> {
      * @param msg 返回内容
      * @return 警告消息
      */
-    public static AjaxResult warn(String msg) {
+    public static AjaxResult<Void> warn(String msg) {
         return AjaxResult.warn(msg, null);
     }
 
@@ -117,8 +147,8 @@ public class AjaxResult extends HashMap<String, Object> {
      * @param data 数据对象
      * @return 警告消息
      */
-    public static AjaxResult warn(String msg, Object data) {
-        return new AjaxResult(HttpStatus.WARN, msg, data);
+    public static <T> AjaxResult<T> warn(String msg, T data) {
+        return new AjaxResult<>(HttpStatus.WARN, msg, data);
     }
 
     /**
@@ -126,7 +156,7 @@ public class AjaxResult extends HashMap<String, Object> {
      *
      * @return 错误消息
      */
-    public static AjaxResult error() {
+    public static AjaxResult<Void> error() {
         return AjaxResult.error("操作失败");
     }
 
@@ -136,7 +166,7 @@ public class AjaxResult extends HashMap<String, Object> {
      * @param msg 返回内容
      * @return 错误消息
      */
-    public static AjaxResult error(String msg) {
+    public static AjaxResult<Void> error(String msg) {
         return AjaxResult.error(msg, null);
     }
 
@@ -147,8 +177,8 @@ public class AjaxResult extends HashMap<String, Object> {
      * @param data 数据对象
      * @return 错误消息
      */
-    public static AjaxResult error(String msg, Object data) {
-        return new AjaxResult(HttpStatus.ERROR, msg, data);
+    public static <T> AjaxResult<T> error(String msg, T data) {
+        return new AjaxResult<>(HttpStatus.ERROR, msg, data);
     }
 
     /**
@@ -158,8 +188,8 @@ public class AjaxResult extends HashMap<String, Object> {
      * @param msg  返回内容
      * @return 错误消息
      */
-    public static AjaxResult error(int code, String msg) {
-        return new AjaxResult(code, msg, null);
+    public static AjaxResult<Void> error(int code, String msg) {
+        return new AjaxResult<>(code, msg, null);
     }
 
     /**
@@ -167,8 +197,10 @@ public class AjaxResult extends HashMap<String, Object> {
      *
      * @return 结果
      */
+    @JsonIgnore
+    @JSONField(serialize = false)
     public boolean isSuccess() {
-        return Objects.equals(HttpStatus.SUCCESS, this.get(CODE_TAG));
+        return Objects.equals(HttpStatus.SUCCESS, this.code);
     }
 
     /**
@@ -176,8 +208,10 @@ public class AjaxResult extends HashMap<String, Object> {
      *
      * @return 结果
      */
+    @JsonIgnore
+    @JSONField(serialize = false)
     public boolean isWarn() {
-        return Objects.equals(HttpStatus.WARN, this.get(CODE_TAG));
+        return Objects.equals(HttpStatus.WARN, this.code);
     }
 
     /**
@@ -185,8 +219,59 @@ public class AjaxResult extends HashMap<String, Object> {
      *
      * @return 结果
      */
+    @JsonIgnore
+    @JSONField(serialize = false)
     public boolean isError() {
-        return Objects.equals(HttpStatus.ERROR, this.get(CODE_TAG));
+        return Objects.equals(HttpStatus.ERROR, this.code);
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    /**
+     * 获取指定返回字段
+     *
+     * @param key 键
+     * @return 值
+     */
+    public Object get(String key) {
+        if (CODE_TAG.equals(key)) {
+            return code;
+        }
+        if (MSG_TAG.equals(key)) {
+            return msg;
+        }
+        if (DATA_TAG.equals(key)) {
+            return data;
+        }
+        return extras.get(key);
+    }
+
+    @JsonAnyGetter
+    @JSONField(unwrapped = true)
+    public Map<String, Object> getExtras() {
+        return extras;
     }
 
     /**
@@ -196,9 +281,18 @@ public class AjaxResult extends HashMap<String, Object> {
      * @param value 值
      * @return 数据对象
      */
-    @Override
-    public AjaxResult put(String key, Object value) {
-        super.put(key, value);
+    @JsonAnySetter
+    @SuppressWarnings("unchecked")
+    public AjaxResult<T> put(String key, Object value) {
+        if (CODE_TAG.equals(key)) {
+            this.code = (Integer) value;
+        } else if (MSG_TAG.equals(key)) {
+            this.msg = (String) value;
+        } else if (DATA_TAG.equals(key)) {
+            this.data = (T) value;
+        } else {
+            this.extras.put(key, value);
+        }
         return this;
     }
 }

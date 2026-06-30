@@ -9,6 +9,13 @@ class Settings(BaseSettings):
     api_prefix: str = "/api"
     cors_origins: str = "http://localhost:8000"
     log_level: str = "INFO"
+    openai_api_key: str = ""
+    openai_base_url: str = "https://api.openai.com/v1"
+    embedding_model: str = "text-embedding-3-small"
+    chroma_persist_dir: str = "./data/chroma"
+    chroma_collection: str = "ruoyi_kb"
+    chunk_size: int = 1000
+    chunk_overlap: int = 150
 
     @property
     def cors_origin_list(self) -> list[str]:

@@ -703,3 +703,34 @@ create table gen_table_column (
   update_time       datetime                                   comment '更新时间',
   primary key (column_id)
 ) engine=innodb auto_increment=1 comment = '代码生成业务表字段';
+-- ----------------------------
+-- 20, knowledge-base document table
+-- ----------------------------
+drop table if exists kb_document;
+create table kb_document (
+  document_id      bigint(20)      not null auto_increment    comment '文件ID',
+  original_name    varchar(255)    not null                   comment '原始文件名',
+  stored_name      varchar(255)    not null                   comment '存储文件名',
+  file_type        varchar(20)     not null                   comment '文件类型',
+  file_size        bigint(20)      default 0                  comment '文件大小',
+  file_path        varchar(500)    not null                   comment '文件路径',
+  status           char(1)         default '0'                comment '解析状态（0未解析 1解析中 2已入库 3失败）',
+  chunk_count      int             default 0                  comment '分片数量',
+  collection_name  varchar(128)    default ''                 comment '向量集合名称',
+  error_message    varchar(1000)   default ''                 comment '错误信息',
+  create_by        varchar(64)     default ''                 comment '创建者',
+  create_time      datetime                                   comment '创建时间',
+  update_by        varchar(64)     default ''                 comment '更新者',
+  update_time      datetime                                   comment '更新时间',
+  remark           varchar(500)    default null               comment '备注',
+  primary key (document_id)
+) engine=innodb auto_increment=1 comment = '知识库文件表';
+
+-- Knowledge-base menu and permissions
+insert into sys_menu values('118',  '知识库管理', '0',   '5', 'kb',       null,                '', '', 1, 0, 'M', '0', '0', '',                     'ReadOutlined',     'admin', sysdate(), '', null, '知识库管理目录');
+insert into sys_menu values('119',  '文件管理',   '118', '1', 'document', 'kb/document/index', '', '', 1, 0, 'C', '0', '0', 'kb:document:list',     'FileTextOutlined', 'admin', sysdate(), '', null, '知识库文件管理菜单');
+insert into sys_menu values('1061', '文件查询',   '119', '1', '#',        '',                  '', '', 1, 0, 'F', '0', '0', 'kb:document:query',    '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1062', '文件上传',   '119', '2', '#',        '',                  '', '', 1, 0, 'F', '0', '0', 'kb:document:upload',   '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1063', '解析入库',   '119', '3', '#',        '',                  '', '', 1, 0, 'F', '0', '0', 'kb:document:ingest',   '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1064', '文件删除',   '119', '4', '#',        '',                  '', '', 1, 0, 'F', '0', '0', 'kb:document:remove',   '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1065', '文件下载',   '119', '5', '#',        '',                  '', '', 1, 0, 'F', '0', '0', 'kb:document:download', '#', 'admin', sysdate(), '', null, '');

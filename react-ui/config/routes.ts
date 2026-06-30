@@ -89,4 +89,15 @@ export default [
       },
     ]
   },
+  {
+    name: 'kb',
+    path: '/kb',
+    routes: [
+      {
+        name: '文件管理',
+        path: '/kb/document/index',
+        component: './Kb/Document',
+      },
+    ]
+  },
 ];

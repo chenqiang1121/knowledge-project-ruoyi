@@ -6,6 +6,7 @@ app/api/__init__.py
 app/api/router.py
 app/api/routes/__init__.py
 app/api/routes/chat.py
+app/api/routes/documents.py
 app/api/routes/health.py
 app/core/__init__.py
 app/core/config.py
@@ -13,6 +14,9 @@ app/graph/__init__.py
 app/graph/kb_graph.py
 app/schemas/__init__.py
 app/schemas/chat.py
+app/schemas/document.py
+app/services/__init__.py
+app/services/document_ingest.py
 python_kb.egg-info/PKG-INFO
 python_kb.egg-info/SOURCES.txt
 python_kb.egg-info/dependency_links.txt

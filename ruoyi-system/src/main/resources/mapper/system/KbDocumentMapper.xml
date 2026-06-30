@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.KbDocumentMapper">
+
+    <resultMap type="KbDocument" id="KbDocumentResult">
+        <id     property="documentId"     column="document_id"     />
+        <result property="originalName"   column="original_name"   />
+        <result property="storedName"     column="stored_name"     />
+        <result property="fileType"       column="file_type"       />
+        <result property="fileSize"       column="file_size"       />
+        <result property="filePath"       column="file_path"       />
+        <result property="status"         column="status"          />
+        <result property="chunkCount"     column="chunk_count"     />
+        <result property="collectionName" column="collection_name" />
+        <result property="errorMessage"   column="error_message"   />
+        <result property="createBy"       column="create_by"       />
+        <result property="createTime"     column="create_time"     />
+        <result property="updateBy"       column="update_by"       />
+        <result property="updateTime"     column="update_time"     />
+        <result property="remark"         column="remark"          />
+    </resultMap>
+
+    <sql id="selectKbDocumentVo">
+        select document_id, original_name, stored_name, file_type, file_size, file_path, status,
+               chunk_count, collection_name, error_message, create_by, create_time, update_by, update_time, remark
+        from kb_document
+    </sql>
+
+    <select id="selectKbDocumentById" parameterType="Long" resultMap="KbDocumentResult">
+        <include refid="selectKbDocumentVo"/>
+        where document_id = #{documentId}
+    </select>
+
+    <select id="selectKbDocumentList" parameterType="KbDocument" resultMap="KbDocumentResult">
+        <include refid="selectKbDocumentVo"/>
+        <where>
+            <if test="originalName != null and originalName != ''">
+                AND original_name like concat('%', #{originalName}, '%')
+            </if>
+            <if test="fileType != null and fileType != ''">
+                AND file_type = #{fileType}
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''">
+                AND date_format(create_time,'%Y%m%d') &gt;= date_format(#{params.beginTime},'%Y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">
+                AND date_format(create_time,'%Y%m%d') &lt;= date_format(#{params.endTime},'%Y%m%d')
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <insert id="insertKbDocument" parameterType="KbDocument" useGeneratedKeys="true" keyProperty="documentId">
+        insert into kb_document (
+            original_name, stored_name, file_type, file_size, file_path, status, chunk_count,
+            collection_name, error_message, create_by, create_time, remark
+        ) values (
+            #{originalName}, #{storedName}, #{fileType}, #{fileSize}, #{filePath}, #{status}, #{chunkCount},
+            #{collectionName}, #{errorMessage}, #{createBy}, sysdate(), #{remark}
+        )
+    </insert>
+
+    <update id="updateKbDocument" parameterType="KbDocument">
+        update kb_document
+        <set>
+            <if test="originalName != null and originalName != ''">original_name = #{originalName},</if>
+            <if test="storedName != null and storedName != ''">stored_name = #{storedName},</if>
+            <if test="fileType != null and fileType != ''">file_type = #{fileType},</if>
+            <if test="fileSize != null">file_size = #{fileSize},</if>
+            <if test="filePath != null and filePath != ''">file_path = #{filePath},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="chunkCount != null">chunk_count = #{chunkCount},</if>
+            <if test="collectionName != null">collection_name = #{collectionName},</if>
+            <if test="errorMessage != null">error_message = #{errorMessage},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            update_time = sysdate()
+        </set>
+        where document_id = #{documentId}
+    </update>
+
+    <delete id="deleteKbDocumentById" parameterType="Long">
+        delete from kb_document where document_id = #{documentId}
+    </delete>
+
+    <delete id="deleteKbDocumentByIds" parameterType="Long">
+        delete from kb_document where document_id in
+        <foreach item="documentId" collection="array" open="(" separator="," close=")">
+            #{documentId}
+        </foreach>
+    </delete>
+</mapper>
